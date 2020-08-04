@@ -1,0 +1,4 @@
+{
+    "cmake.configureArgs": [                                                                                              │                                                     │
+        "-DCMAKE_SYSTEM_VERSION=10.0"                                                                                     │                                                     │
+    ]  }
