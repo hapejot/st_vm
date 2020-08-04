@@ -1,10 +1,14 @@
 #ifndef _OBJ_H
 #define _OBJ_H
+#include <stdio.h>
 
 typedef struct value {
     int kind:4;
     int idx:12;
 } VALUE;
+
+#define KIND_INT    0
+#define KING_STR    1
 
 typedef struct object {
     VALUE cls;
@@ -32,8 +36,8 @@ extern WORDS eof;
 #define EXTERN_DLL  extern __declspec(dllexport)
 #define DLL  __declspec(dllexport)
 #endif
-
-EXTERN_DLL WORDS o_read_words();
-EXTERN_DLL LINES o_read_lines();
+EXTERN_DLL void o_add_word(WORDS *words, const char*);
+EXTERN_DLL WORDS o_read_words(FILE*);
+EXTERN_DLL LINES o_read_lines(FILE*);
 
 #endif

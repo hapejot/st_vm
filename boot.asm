@@ -1,3 +1,6 @@
+method test :: System
+
+
 method main in System
 	lvar	foo1
 	lvar	foo2
@@ -151,20 +154,22 @@ method do: in Interval
 	mkcont  t1  l2
 	param   s   t0
     param   0   t1
-    param   c   cont
-    send	whileTrue
+    send	whileTrue cont
 -- kehrt nie zurück, weil c <- cont
 
-l1:	param   s	stop
+l1:	
+	param   s	stop
 	param   0   aValue
     param   c   
 	send	<=
 	
-l2:	lval	aValue
+l2:	
+	lval	aValue
 	pval	0
 	send	value:
 
-l3:	ival	step
+l3:	
+	ival	step
 	lval	aValue
 	send	+
 	ldef	aValue
