@@ -1,0 +1,9 @@
+packet osrc
+#depends err
+#use CC
+build TEST
+default DBG     TRUE
+default PROFILE FALSE
+source o*.c
+
+main tst main.c
