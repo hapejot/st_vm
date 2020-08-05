@@ -1,5 +1,6 @@
 packet osrc
 #depends err
+depends values
 #use CC
 build TEST
 default DBG     TRUE

@@ -8,7 +8,7 @@ struct word newline = {.str = "\n", .next = NULL };
 struct word eof_struct  = {.str = "#EOF#", .next = NULL };
 WORDS eof = &eof_struct;
 
-DLL void o_add_word(WORDS*words, const char* w){
+API_DEF void o_add_word(WORDS*words, const char* w){
   WORDS new;
   while(*words){
     words = &(*words)->next;
@@ -20,7 +20,7 @@ DLL void o_add_word(WORDS*words, const char* w){
 }
 
 
-DLL WORDS _read_word(FILE *in, int idx)
+API_DEF WORDS _read_word(FILE *in, int idx)
 {
   WORDS w = NULL;
   int c = fgetc(in);

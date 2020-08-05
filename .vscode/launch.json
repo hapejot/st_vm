@@ -9,7 +9,7 @@
             "type": "cppvsdbg",
             "request": "launch",
             "program": "bin/Debug/tst.exe",
-            "args": ["<", "README.md"],
+            "args": ["boot.asm"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

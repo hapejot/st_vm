@@ -1,7 +1,7 @@
 #include "obj.h"
 #include <stdlib.h>
 
-DLL LINES o_read_lines(FILE* in)
+API_DEF LINES o_read_lines(FILE* in)
 {
     LINES r = NULL;
     LINES *current = &r;

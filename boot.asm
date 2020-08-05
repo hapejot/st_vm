@@ -1,22 +1,29 @@
-method test :: System
-
-
 method main in System
-	lvar	foo1
-	lvar	foo2
+	tmpvar	foo1
+	tmpvar	foo2
+	global	Foo
+	tmpvar	c1	
+	tmpvar	c2
 
-	push	1
-	push	2
-	lookup	Foo
-	send	new_a:b:
-	ldef	foo1
+	param	#1
+	param	#2
+	c1 <- continue l1
+	param 	c1
+	param	Foo
+	foo1 <- send	new_a:b:
+l1:
 
-	push	11
-	push	22
-	lookup	Foo
-	send	new_a:b:
-	ldef	foo2
+	param	11
+	param	22
+	c2 <- continue l2
+	param 	c1
+	param 	Foo
+	foo2 <-	send	new_a:b:
 	end
+
+
+
+
 ivar a in Foo
 ivar b in Foo
 method new_a:b: in Foo class 
