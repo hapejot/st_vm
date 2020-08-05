@@ -1,0 +1,8 @@
+packet values
+#depends err
+#use CC
+build TEST
+default DBG     TRUE
+default PROFILE FALSE
+source values_*.c
+

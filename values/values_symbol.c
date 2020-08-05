@@ -9,9 +9,9 @@ static size_t _top = 0;
 
 
 API VALUE value_symbol( char *str ) {
-    int n = strlen( str ) + 1;  // include zero terminator
+    uint_t n = strlen( str ) + 1;  // include zero terminator
     VALUE result = {.u.v.kind = 15};
-    for( int i = 0; _top > n && i <= _top - n; i++ ) {
+    for( uint_t i = 0; _top > n && i <= _top - n; i++ ) {
         if( memcmp( _str + i, str, n ) == 0 ) {
             result.u.v.kind = KIND_STR;
             result.u.v.idx = i;

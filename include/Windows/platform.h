@@ -9,5 +9,6 @@
 
 
 typedef unsigned long ulong_t;
+typedef unsigned int uint_t;
 
 #endif

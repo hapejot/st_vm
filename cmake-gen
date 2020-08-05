@@ -32,7 +32,7 @@ proc default {name value} {
 }
 
 proc source {pattern} {
-    global packetname output libdeclared
+    global packetname output libdeclared sources
     puts "Sources: $pattern"
     if {$libdeclared == 1} {
         puts $output "list(APPEND SOURCES [glob $pattern])"
@@ -40,21 +40,24 @@ proc source {pattern} {
         puts $output "list(APPEND SOURCES [glob $pattern])"
         set libdeclared 1
     }
+    set sources [concat $sources [glob $pattern]]
 }
 
 proc out_library {} {
     global packetname output libdeclared depends
     if {$libdeclared == 1} {
-        puts $output "add_library($packetname SHARED \${SOURCES})"
+        #puts $output "add_library($packetname SHARED \${SOURCES})"
+        puts $output "add_library($packetname \${SOURCES})"
         set libdeclared 2
     }
 }
 
 proc main {name source} {
-    global packetname output libdeclared depends
+    global packetname output libdeclared depends sources
     out_library
     puts "Executable $name $source"
     puts $output "add_executable( $name $source )"
+    lappend sources $source
     #puts $output "if(MSVC)"
     #puts $output "target_compile_options( $name PRIVATE /W4 )"
     #puts $output "else()"
@@ -65,6 +68,7 @@ proc main {name source} {
 }
 set libdeclared 0
 set depends {}
+set sources {}
 set output [open "CMakeLists.txt" w]
 puts $output {# generated file}
 puts $output {cmake_minimum_required( VERSION 2.8 )}
@@ -76,3 +80,13 @@ eval [read $input]
 out_library
 close $input
 close $output
+
+puts "sources: $sources"
+set fname_h "../include/$packetname.func.h"
+file delete tmp
+foreach x $sources {
+    exec cproto -e -I../include -I../include/Linux/ $x >> tmp
+}
+exec sed s/^extern/API/ tmp > $fname_h
+file delete tmp
+
