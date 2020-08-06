@@ -90,13 +90,11 @@ int local_idx(char *name)
 
 CLS_MTH *_lookup_method_and_class(VALUE cls, VALUE sel)
 {
-    bool found = false;
     CLS_MTH *result = NULL;
-    for (int i = 0; i < top_methods; i++)
+    for (uint_t i = 0; i < top_methods; i++)
     {
         if (methods[i].cls.u.l == cls.u.l && methods[i].sel.u.l == sel.u.l)
         {
-            found = true;
             result = methods + i;
             break;
         }
@@ -114,21 +112,6 @@ CLS_MTH *_append_method(VALUE cls, VALUE sel)
     return m;
 }
 
-bool _argv_from_words(int *argc, char ***argv, WORDS ws)
-{
-    bool result = false;
-    static char *_args[30];
-    *argc = 0;
-    while (ws)
-    {
-        _args[*argc] = ws->str;
-        ws = ws->next;
-        (*argc)++;
-        result = true;
-        *argv = &_args;
-    }
-    return result;
-}
 
 void emit_o(int op)
 {
@@ -157,7 +140,7 @@ bool _initialized = false;
 struct {
     VALUE method;
 }   sym;
-void _init()
+void _init_symbols()
 {
     if (!_initialized)
     {
@@ -166,30 +149,16 @@ void _init()
     }
 }
 
-
 void _asm_line(int argc, VALUE *argv)
 {
-    _init();
-    if (strcmp("method", argv[0]) == 0)
+    _init_symbols();
+    if (value_eq(sym.method, argv[0]) && argc >= 4)
     {
-        WORDS w1 = ws->next;
-        WORDS w2 = w1->next;
-        WORDS w3 = w2->next;
-        VALUE sel = intern_string(w1->str);
-        VALUE cls = intern_string(w3->str);
-        CLS_MTH *m = _lookup_method_and_class(cls, sel);
-        if (NULL == m)
-        {
-            m = _append_method(cls, sel);
-        }
-        printf("METHOD %30s for %-20s  %d\n", w1->str, w3->str, m->no);
-    }
-    else if (strcmp("param", argv[0]) == 0)
-    {
-        emit_o(OP_PARAM);
+        CLS_MTH * m = _append_method(argv[3], argv[1]);
+        printf("METHOD  %d\n", m->no);
     }
 }
-}
+
 int main(int argc, char **argv)
 {
     (void)argc;
