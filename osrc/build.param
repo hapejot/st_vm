@@ -1,10 +1,15 @@
 packet osrc
 #depends err
 depends values
-#use CC
+use dl dl
 build TEST
 default DBG     TRUE
 default PROFILE FALSE
 source o*.c
+source locals.c
+source asm.c
+source methods.c
+source asm_*.c
+source exec_*.c
 
 main tst main.c

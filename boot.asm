@@ -1,49 +1,100 @@
 method main in System
+    tmpvar  self
+    tmpvar  CONT
 	tmpvar	foo1
 	tmpvar	foo2
 	global	Foo
 	tmpvar	c1	
 	tmpvar	c2
+    tmpvar  t1
 
+	c1 <- continue l1 t1
+	c2 <- continue l2 t1
+
+	param	Foo
+	param 	c1
 	param	#1
 	param	#2
-	c1 <- continue l1
-	param 	c1
-	param	Foo
 	foo1 <- send	new_a:b:
-l1:
-
+l1  :
+	param 	Foo
+	param 	c2
 	param	11
 	param	22
-	c2 <- continue l2
-	param 	c1
-	param 	Foo
 	foo2 <-	send	new_a:b:
+l2  :
+    param t1
+    param CONT
+    t1 <- send print
 	end
 
 
-
-
-ivar a in Foo
-ivar b in Foo
+instvar a in Foo
+instvar b in Foo
 method new_a:b: in Foo class 
-	super
-	send	new
-	pval	0
-	slide	1
-	send	set_a:
-	pval	1
-	slide 	1
-	send	set_b:
+    tmpvar  self
+    tmpvar  CONT
+	tmpvar	a
+	tmpvar	b
+    tmpvar  c1
+    tmpvar  t1
+
+    c1 <- continue l1 t1
+    param   self
+    param c1 
+	t1 <- send	new
+l1  :
+    c2 <- continue l2
+    param   t1
+    param   c2
+    param   a
+	t1  <-  send	set_a:
+l2  :
+    param   t1
+    param   CONT
+    param   b
+	t1  <-  send	set_b:
 	end
+
+method new in Foo class
+    tmpvar  self
+    tmpvar  CONT
+    tmpvar t1
+    t1 <- new Foo 2
+    goto CONT t1
+    end
+
 method set_a: in Foo
-	pval 	0
-	idef	a
+    tmpvar  self
+    tmpvar  CONT
+    tmpvar  value
+    a <- value
+    goto CONT self
 	end
+
 method set_b: in Foo
-	pval	0
-	idef	b
+    tmpvar  self
+    tmpvar  CONT
+    tmpvar  value
+    b <- value
+    goto CONT self
 	end
+
+method print in Foo
+    tmpvar self
+    tmpvar  CONT
+
+    c1 <- continue l1 t1
+
+    param a
+    param c1
+    primitive print
+l1:
+    param b
+    param CONT
+    primitive print
+    end
+
 method to: in SmallInteger
 	self
 	pval	0
@@ -63,8 +114,8 @@ method to: in SmallInteger
 -- 		by: 1!
 
 
-ivar start for Interval
-ivar stop for Interval
+instvar start for Interval
+instvar stop for Interval
 method from:to: in Interval class
 	self
 	send	new
@@ -157,25 +208,25 @@ method do: in Interval
 	tvar	aValue
 
 	set	    aValue  start
-    mkcont  t0  l1
+    mkcont  t0  l1 
 	mkcont  t1  l2
 	param   s   t0
     param   0   t1
     send	whileTrue cont
 -- kehrt nie zurück, weil c <- cont
 
-l1:	
+l1  :	
 	param   s	stop
 	param   0   aValue
     param   c   
 	send	<=
 	
-l2:	
+l2  :	
 	lval	aValue
 	pval	0
 	send	value:
 
-l3:	
+l3  :	
 	ival	step
 	lval	aValue
 	send	+

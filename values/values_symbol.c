@@ -27,3 +27,12 @@ API VALUE value_symbol( char *str ) {
     }
     return result;
 }
+
+
+API const char* value_symbol_str( VALUE v ){
+    const char* r = "<no symbol>";
+    if(v.u.v.kind == KIND_STR ){
+        r = _str + v.u.v.idx;
+    }
+    return r;
+}

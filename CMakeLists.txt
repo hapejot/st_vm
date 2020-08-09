@@ -32,3 +32,4 @@ endif()
 
 add_subdirectory( osrc  )
 add_subdirectory( values )
+add_subdirectory( primitives )

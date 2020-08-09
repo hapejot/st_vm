@@ -28,8 +28,7 @@ Definition of the instructions
 Code|Description
 -|-
 method <name> <filler> <class>|start method implementation
-tvar <name>|temporary variable declaration reserves space in the closure
-pvar <pos> <name>|gives a positional parameter a name.
+tmpvar <name>|temporary variable declaration reserves space in the closure
 ivar <name>|instance variables need to be declared explicitly in each method implementation
 end|ends an implementation. Is no real opcode, it is just there to control the assembler
 registers|these are global to the interpreter
@@ -37,9 +36,13 @@ r0|register contains current result of operation
 temporaries|these are local to the method execution and are keept local in a closure
 t0|the first unnamed temporary, that is automatically allocated
 "label":|is an address local to the method given in a relative address to the start of the method.
-mkcont|creates a continuation based on the current closure and the address of a label.
+
+cont|creates a continuation based on the current closure and the address of a label.
 param|adds a parameter to the next "send"
 send|is looking up the apropriate implementation for the method selector and the current reciever and calls it.
+global|...
+assign|...
+jump|...
 
 
 

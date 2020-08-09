@@ -1,0 +1,10 @@
+packet primitives
+#depends err
+depends values
+use dl dl
+build TEST
+default DBG     TRUE
+default PROFILE FALSE
+source prim_*.c
+
+main prim_tst main.c

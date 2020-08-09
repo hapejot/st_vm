@@ -46,8 +46,8 @@ proc source {pattern} {
 proc out_library {} {
     global packetname output libdeclared depends
     if {$libdeclared == 1} {
-        #puts $output "add_library($packetname SHARED \${SOURCES})"
-        puts $output "add_library($packetname \${SOURCES})"
+        puts $output "add_library($packetname SHARED \${SOURCES})"
+        #puts $output "add_library($packetname \${SOURCES})"
         set libdeclared 2
     }
 }

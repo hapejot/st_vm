@@ -30,9 +30,30 @@ struct line
 };
 extern WORDS eof;
 
-API void o_add_word(WORDS *words, const char *);
-API WORDS o_read_words(FILE *);
-API LINES o_read_lines(FILE *);
-API VALUE intern_string(char *str);
+typedef struct localvar *LOCALVAR;
+
+
+
+extern struct sym {
+    VALUE method;
+    VALUE tmpvar;
+    VALUE global;
+    VALUE param;
+    VALUE send;
+    VALUE cont;
+    VALUE jump;
+    VALUE instvar;
+    VALUE mkcont;
+    VALUE assign;
+    VALUE end;
+    VALUE label;
+    VALUE cls;
+    VALUE new;
+    VALUE go_to;
+    VALUE primitive;
+} sym;
+#include "cls_mth.h"
+#include "closure.h"
+#include "osrc.func.h"
 
 #endif

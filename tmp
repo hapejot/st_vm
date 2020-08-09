@@ -1,0 +1,6 @@
+struct opcode {
+    VALUE name;
+    int params;
+    bool assign;
+    bool defined;
+} opcodes[100];

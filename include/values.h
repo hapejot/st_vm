@@ -15,23 +15,36 @@ typedef struct value
     } u;
 } VALUE;
 
-#define KIND_INT 0
-#define KIND_STR 1
-#define KIND_OPC 2
+typedef struct opcode {
+    VALUE name;
+    int params;
+    bool assign;
+    bool defined;
+    uint_t args;
+    uint_t code;
+} OPCODE;
 
+#define MAX_OPCODES 100
+extern OPCODE opcodes[];
 
-VALUE value_dict_new(int size);
-VALUE value_dict_at(VALUE dict, VALUE key);
-VALUE value_dict_at_put(VALUE dict, VALUE key, VALUE val);
+#define KIND_INT 0 // Small Integer
+#define KIND_STR 1 // String or Symbol
+#define KIND_OPC 2 // Opcode
+#define KIND_REF 3 // Code Reference
+#define KIND_TREF 4 // reference for temporary variable
+#define KIND_OBJ 5 // regular object
+#define KIND_MEM 6 // memory reference
+#define KIND_CPR 7 // code pointer
+#define KIND_CONT 8 // continuation
+#define KIND_IREF 9
 
-VALUE value_array_new(int size);
-VALUE value_array_at(VALUE array, int idx);
-VALUE value_array_at_set(VALUE array, int idx, VALUE el);
+#define VALUE_KIND(x) ((x).u.v.kind)
+#define VALUE_IDX(x)  ((x).u.v.idx)
+#define VALUE_LONG(x) ((x).u.l)
 
 #undef API
 #define API API_EXT
-API bool value_eq(VALUE a, VALUE b);
-API VALUE value_symbol( char *str );
+#include "values.func.h"
 #undef API
 #define API API_DEF
 
