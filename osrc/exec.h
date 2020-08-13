@@ -3,9 +3,9 @@
 static void _exec( CLOSURE clr, VALUE ref ) {
     VALUE param[10];
     uint_t params = 0;
-    printf( "\nREF: %04lx", ref.u.l );
+    printf( "\nREF: %04lx", VALUE_LONG( ref ) );
     VALUE *code = value_code_ptr( ref );
-    _closure_dump( clr );
+    value_closure_dump( clr );
     while( code ) {
         VALUE o = *code++;
         if( o.u.v.kind != KIND_OPC )
@@ -34,56 +34,73 @@ static void _exec( CLOSURE clr, VALUE ref ) {
                     else if( value_eq( sym.send, name ) ) {
 #include "exec_send.h"
                     }
-                    else if(value_eq(sym.new, name)){
+                    else if( value_eq( sym.new, name ) ) {
 #include "exec_new.h"
                     }
-                    else if(value_eq(sym.go_to, name)){
+                    else if( value_eq( sym.go_to, name ) ) {
 #include "exec_goto.h"
                     }
-                    else if(value_eq(sym.assign, name)){
+                    else if( value_eq( sym.assign, name ) ) {
                         VALUE t = *code++;
                         VALUE s = *code++;
-                        switch(VALUE_KIND(s)){
+                        switch ( VALUE_KIND( s ) ) {
                             case KIND_TREF:
-                                s = clr->tmp[VALUE_IDX(s)];
+                                s = clr->tmp[VALUE_IDX( s )];
                                 break;
                             case KIND_IREF:
-                                s = value_obj_ivar(clr->tmp[0], s);
-                                printf("S:IREF %lx", VALUE_LONG(s));
+                                s = value_obj_ivar( clr->tmp[0], s );
+                                printf( "S:IREF %lx", VALUE_LONG( s ) );
                                 break;
                         }
-                       switch(VALUE_KIND(t)){
-                           case KIND_TREF:
-                                clr->tmp[VALUE_IDX(t)] = s;
-                               break;
-                           case KIND_IREF:
-                               value_obj_ivar_set(clr->tmp[0], t, s);
-                               printf("IVAR %d <- %lx", VALUE_IDX(t), VALUE_LONG(s));
-                               break;
-                           default:
-                               printf("\nILLEGAL TARGET TYPE");
-                               return;
-                               break;
-                       } 
-                    }
-                    else if(value_eq(sym.primitive, name)){
-                        VALUE s = *code++;
-                        if(prim_lib == NULL){
-                            prim_lib = dlopen("bin/libprimitives.so", RTLD_LAZY);
+                        switch ( VALUE_KIND( t ) ) {
+                            case KIND_TREF:
+                                clr->tmp[VALUE_IDX( t )] = s;
+                                break;
+                            case KIND_IREF:
+                                value_obj_ivar_set( clr->tmp[0], t, s );
+                                printf( "IVAR %d <- %lx", VALUE_IDX( t ),
+                                        VALUE_LONG( s ) );
+                                break;
+                            default:
+                                printf( "\nILLEGAL TARGET TYPE" );
+                                return;
+                                break;
                         }
-                        if(prim_lib){
-                            void (*prim)(CLOSURE);
-                            const char* name = value_symbol_str(s);
-                            *(void**)&prim = dlsym(prim_lib, name);
+                    }
+                    else if( value_eq( sym.primitive, name ) ) {
+                        VALUE s = *code++;
+                        if( prim_lib == NULL ) {
+                            prim_lib =
+                                    dlopen( "bin/libprimitives.so",
+                                            RTLD_LAZY );
+                        }
+                        if( prim_lib ) {
+                            CONTINUATION( *prim ) ( CLOSURE );
+                            const char *name = value_symbol_str( s );
+                            *( void ** )&prim = dlsym( prim_lib, name );
 
-    printf( "\nPRIMITIVE:%s\n", name );
-    CLOSURE c = _closure_mk(  );
-    for( uint_t i = 0; i < params; i++ ) {
-        c->tmp[i] = param[i];
-    }
-    params = 0;
-    prim(c);
-                        } 
+                            printf( "\nPRIMITIVE: %s\n", name );
+                            CLOSURE c = value_closure_mk(  );
+                            for( uint_t i = 0; i < params; i++ ) {
+                                c->tmp[i] = param[i];
+                            }
+                            params = 0;
+                            if( prim ) {
+                                CONTINUATION cont = prim( c );
+                                if( cont ) {
+                                    VALUE ref = cont->ref;
+                                    printf( "\nREF: %04lx",
+                                            VALUE_LONG( ref ) );
+                                    code = value_code_ptr( ref );
+                                    clr = cont->closure;
+                                }
+                                else {
+                                    printf( "\nNO CONTINUATION after primitive\n" );
+                                    return;
+                                }
+                            }
+
+                        }
                     }
                 }
                 break;

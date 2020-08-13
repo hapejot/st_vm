@@ -1,6 +1,2 @@
-struct opcode {
-    VALUE name;
-    int params;
-    bool assign;
-    bool defined;
-} opcodes[100];
+#define MAX_OPCODES 100
+OPCODE opcodes[MAX_OPCODES];

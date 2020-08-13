@@ -26,28 +26,7 @@ CLS_MTH *method;                // current method
 #define OP_GLOBAL 4
 #define OP_CONTINUE 5
 
-#define MAX_OPCODES 100
-OPCODE opcodes[MAX_OPCODES];
-
-#include "closure.h"
-#define MAX_CLOSURES 100
-struct closure closures[MAX_CLOSURES];
-
 void *prim_lib;
-/*
- * CONTINUATION
- *
- *
- *
- */
-typedef struct continuation * CONTINUATION;
-struct continuation {
-    bool active;
-    VALUE ref; // code reference to continue
-    VALUE tref; // temporary variable position to store results
-    CLOSURE closure;
-};
-static struct continuation continuations[100];
 
 /*
  * PROTOTYPES
@@ -115,53 +94,6 @@ static CLS_MTH *_lookup_method_and_class( VALUE cls, VALUE sel ) {
     return result;
 }
 
-
-static CLOSURE _closure_mk(  ) {
-    for(uint_t i = 0;i<MAX_CLOSURES;i++){
-        CLOSURE clr = closures+i;
-        if(!clr->active){
-            clr->active = true;
-            return clr;
-        }
-    }
-    return NULL;
-}
-
-
-static void _closure_dump( CLOSURE clr ) {
-    printf( "\nCLOSURE: %p", ( void * )clr );
-    for( uint_t i = 0; i < 10; i++ ) {
-        printf( "\n  %d. %04lx", i, clr->tmp[i].u.l );
-    }
-}
-
-
-static VALUE _continuation_new( CLOSURE clr, VALUE ref, VALUE tref ) {
-    VALUE r = {.u.l = 0 };
-    for( uint_t i = 0; i < 100; i++ ) {
-        CONTINUATION cc = continuations + i;
-        if( !cc->active ) {
-            cc->active = true;
-            cc->closure = clr;
-            cc->ref = ref;
-            cc->tref = tref;
-
-            r.u.v.idx = i;
-            r.u.v.kind = KIND_CONT;
-            break;
-        }
-    }
-    return r;
-}
-
-static CONTINUATION _continuation( VALUE c ){
-    if( c.u.v.kind == KIND_CONT ){
-        return continuations + c.u.v.idx;
-    }
-    else
-        return NULL;
-}
-
 #include "exec.h"
 
 int main( int argc, char **argv ) {
@@ -179,6 +111,11 @@ int main( int argc, char **argv ) {
         printf( "usage: %s <file> <class> <method>\n", argv[0] );
         exit( -1 );
     }
+
+    init_classes();
+    init_globals();
+
+
     FILE *in = fopen( argv[1], "r" );
     LINES lines = o_read_lines( in );
     for( LINES l = lines; l; l = l->next ) {
@@ -194,11 +131,12 @@ int main( int argc, char **argv ) {
     CLS_MTH *m = _lookup_method_and_class( _global( value_symbol( argv[2] ) ),
                                            value_symbol( argv[3] ) );
     if( m ) {
+        _globals_dump();
         value_obj_dump(  );
         method_dump(  );
         value_ivar_dump();
         printf( "M:%d\n", m->no );
-        _exec( _closure_mk(  ), m->code );
+        _exec( value_closure_mk(  ), m->code );
     }
     return 0;
 }

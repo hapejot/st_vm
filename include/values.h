@@ -9,7 +9,7 @@ typedef struct value
         struct
         {
             unsigned int kind : 4;
-            unsigned int idx : 12;
+            int idx : 12;
         } v;
         ulong_t l;
     } u;
@@ -23,6 +23,14 @@ typedef struct opcode {
     uint_t args;
     uint_t code;
 } OPCODE;
+
+extern VALUE sym_cls;
+extern VALUE true_cls;
+extern VALUE false_cls;
+extern VALUE bool_cls;
+extern VALUE true_val;
+extern VALUE false_val;
+extern VALUE block_cls;
 
 #define MAX_OPCODES 100
 extern OPCODE opcodes[];
@@ -41,6 +49,9 @@ extern OPCODE opcodes[];
 #define VALUE_KIND(x) ((x).u.v.kind)
 #define VALUE_IDX(x)  ((x).u.v.idx)
 #define VALUE_LONG(x) ((x).u.l)
+
+#include "closure.h"
+#include "continuation.h"
 
 #undef API
 #define API API_EXT

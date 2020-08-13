@@ -12,8 +12,11 @@ API void locals_add(LOCALVAR *vars, VALUE name, char type);
 API void locals_dump(LOCALVAR vars);
 API char locals_lookup(uint_t *pos, LOCALVAR vars, VALUE name);
 /* asm.c */
+API void _globals_initialize(void);
+API void init_globals(void);
 API void _global_put(VALUE key, VALUE value);
 API VALUE _global(VALUE key);
+API void _globals_dump(void);
 API CLS_MTH *_append_method(VALUE cls, VALUE sel);
 API void _asm_line(int argc, VALUE *argv);
 /* methods.c */

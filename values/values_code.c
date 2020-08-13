@@ -1,6 +1,10 @@
 #include "values.h"
 #include <stdio.h>
 
+
+
+OPCODE opcodes[MAX_OPCODES];
+
 #define MAXCODE 1000
 
 VALUE code[MAXCODE];

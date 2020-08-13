@@ -2,8 +2,9 @@
 #include "obj.h"
 #include "values.h"
 
-void print( CLOSURE clr ) {
+API CONTINUATION print( CLOSURE clr ) {
     VALUE self = clr->tmp[0];
+    CONTINUATION cont = value_continuation( clr->tmp[1] );
     switch ( VALUE_KIND( self ) ) {
         case KIND_STR:
             printf( "PRINT: %s\n", value_symbol_str( self ) );
@@ -15,4 +16,5 @@ void print( CLOSURE clr ) {
             printf( "PRINT: 0x%04lx\n", VALUE_LONG( self ) );
             break;
     }
+    return cont;
 }

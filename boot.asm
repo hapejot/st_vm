@@ -4,12 +4,10 @@ method main in System
 	tmpvar	foo1
 	tmpvar	foo2
 	global	Foo
-	tmpvar	c1	
-	tmpvar	c2
-    tmpvar  t1
+    tmpvar  result
 
-	c1 <- continue l1 t1
-	c2 <- continue l2 t1
+	c1 <- continue l1 result
+	c2 <- continue l2 result
 
 	param	Foo
 	param 	c1
@@ -23,11 +21,135 @@ l1  :
 	param	22
 	foo2 <-	send	new_a:b:
 l2  :
-    param t1
+    param result
     param CONT
-    t1 <- send print
+    result <- send print
 	end
 
+-- Requirements:
+-- 
+-- internal string is treated like an object of class Symbol
+-- class symbol has a method <
+-- the method < should be expressable in terms of a primitive
+-- 'a' < 'b' ifTrue: [ 'correct' print ]
+--
+method test in System
+    tmpvar  self
+    tmpvar  CONT
+    tmpvar  result
+    tmpvar  tmp
+
+	c1 <- continue l1 result
+	c2 <- continue l2 tmp
+
+    l_a <- a
+    l_b <- b
+    param l_a
+    param c1
+    param l_b
+    result <- send <
+l2  : 
+    l_str <- correct
+    param l_str
+    param CONT
+    tmp <- send print
+
+l1  :
+    param result
+    param CONT
+    param c2
+    tmp <- send ifTrue:
+    end
+
+
+-- Requirements:
+-- | counter |
+-- counter <- 1
+-- [counter < 10] 
+--          whileTrue: [ counter print.
+                        counter <- counter + 1 ]
+--
+method testLoop in System
+    tmpvar  self
+    tmpvar  CONT
+    tmpvar  result
+    tmpvar  tmp
+    tmpvar  counter
+    tmpvar  max
+    tmpvar  incr
+    tmpvar  b0
+
+    counter <- #1
+    max <- 10
+    incr <- 1
+
+    c0 <- continue l0 b0
+    c1 <- continue l1 tmp
+
+    param c0
+    param CONT
+    param c1
+    tmp <- send whileTrue:
+    
+l0  :
+    param counter
+--  c1 should be controlled by the whileTrue method
+    param c1
+    param max
+    result <- send <
+l1  :
+    param counter
+    param c2
+    tmp <- send print
+l2  : 
+    param counter
+    param xxxxx
+    param incr
+    tmp <- send print
+
+    end
+
+method value for Block
+    tmpvar      self
+    tmpvar      Cont
+    tmpvar      result
+
+    
+
+method whileTrue: for Block
+--  whileTrue: aBlock 
+--  	"Evaluate the argument, aBlock, as long as the value  
+--  	of the receiver is true. Ordinarily compiled in-line. 
+--  	But could also be done in Smalltalk as follows"
+--  
+--  	^self value
+--  		ifTrue: 
+--  			[aBlock value.
+--  			self whileTrue: aBlock]! !
+    tmpvar      self
+    tmpvar      Cont
+    tmpvar      aBlock
+    tmpvar      result
+
+    goto self
+
+    param self 
+    param c0
+    result <- send  value
+l1  :
+    param s r0
+    param 0 l2
+    param c cont
+    send r ifTrue: 
+l2  :
+    param s aBlock
+    param c l3
+    send t0 value
+l3  :
+    param s self
+    param 0 aBlock
+    param c blockCont
+    end
 
 instvar a in Foo
 instvar b in Foo
@@ -56,6 +178,7 @@ l2  :
 	t1  <-  send	set_b:
 	end
 
+
 method new in Foo class
     tmpvar  self
     tmpvar  CONT
@@ -81,18 +204,19 @@ method set_b: in Foo
 	end
 
 method print in Foo
-    tmpvar self
+    tmpvar  self
     tmpvar  CONT
+    tmpvar  result
 
-    c1 <- continue l1 t1
+    c1 <- continue l1 result
 
     param a
-    param c1
     primitive print
-l1:
+    goto c1 self
+l1  :
     param b
-    param CONT
     primitive print
+    goto CONT result
     end
 
 method to: in SmallInteger
@@ -149,11 +273,13 @@ method setFrom:to: in Interval
 	end
 
 method ifTrue: for True
-    pvar    s self
-    pvar    0 block
-    pvar    c cont
+    tmpvar  self
+    tmpvar  CONT
+    tmpvar  trueBranch
 
-    jmp block
+    goto trueBranch
+    end
+
 
 method ifTrue: for False
     pvar    s self
@@ -161,37 +287,9 @@ method ifTrue: for False
     pvar    c cont
 
     jmp cont
+    end
 
 
-method whileTrue: for Block
---  whileTrue: aBlock 
---  	"Evaluate the argument, aBlock, as long as the value  
---  	of the receiver is true. Ordinarily compiled in-line. 
---  	But could also be done in Smalltalk as follows"
---  
---  	^self value
---  		ifTrue: 
---  			[aBlock value.
---  			self whileTrue: aBlock]! !
-    pvar    s   self
-    pvar    0   aBlock
-    pvar    c   cont
-    param s self 
-    param c l1
-    send    r value
-l1:
-    param s r0
-    param 0 l2
-    param c cont
-    send r ifTrue: 
-l2:
-    param s aBlock
-    param c l3
-    send t0 value
-l3:
-    param s self
-    param 0 aBlock
-    param c blockCont
 
 method do: in Interval
 -- do: aBlock 
@@ -233,3 +331,32 @@ l3  :
 	ldef	aValue
 
 	end
+
+
+method print of Symbol
+    tmpvar  self
+    tmpvar  CONT
+	tmpvar	str
+
+    param   self
+    param   CONT
+    primitive print
+    end
+
+method < of Symbol
+    tmpvar  self
+    tmpvar  CONT
+	tmpvar	str
+    tmpvar  result
+
+	c1 <- continue l1 result
+    param self
+    param c1
+    param str
+    primitive sym_compare
+l1  :
+    param #-1
+    param CONT
+    param result
+    primitive obj_identical
+    end 
