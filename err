@@ -33,4 +33,8 @@ CMake Warning at primitives/CMakeLists.txt:5 (find_package):
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/peter/w/st_vm/build
-[ 53%] Built target osrc
+[ 12%] Built target primitives
+[ 36%] Built target values
+[ 41%] Built target prim_tst
+[ 95%] Built target osrc
+[100%] Built target tst
