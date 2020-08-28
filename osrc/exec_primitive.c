@@ -11,7 +11,11 @@ void exec_primitive(CONTEXT ctx) {
     }
     if( prim_lib ) {
         bool( *prim ) ( MESSAGE );
-    VALUE s = *(ctx->code)++;
+        VALUE t = *ctx->code++;
+        assert(VALUE_KIND(t) == KIND_TREF);
+       ctx->tmp_msg->result = ctx->clr->tmp + VALUE_IDX(t);
+        
+    VALUE s = *ctx->code++;
         const char *name = value_symbol_str( s );
         *( void ** )&prim = dlsym( prim_lib, name );
         if( prim ) {
