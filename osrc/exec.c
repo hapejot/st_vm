@@ -24,21 +24,21 @@ static void _wait_input( CONTEXT ctx ) {
             {
                 value_closure_dump( ctx->clr );
             }
-            else if(line[0] == 'm' ){
-                printf("\nMessage");
-                if(ctx->tmp_msg) {
-                printf("\nSelf: ");
-                values_print(ctx->tmp_msg->obj);
-                printf("\nCont: ");
-                values_print(ctx->tmp_msg->cont);
-                uint_t n = VALUE_IDX(ctx->tmp_msg->argc);
-                for(uint_t i=0;i<n;i++){
-                    printf("\n%d. ", i+1);
-                    values_print(ctx->tmp_msg->args[i]);
+            else if( line[0] == 'm' ) {
+                printf( "\nMessage" );
+                if( ctx->tmp_msg ) {
+                    printf( "\nSelf: " );
+                    values_print( ctx->tmp_msg->obj );
+                    printf( "\nCont: " );
+                    values_print( ctx->tmp_msg->cont );
+                    uint_t n = VALUE_IDX( ctx->tmp_msg->argc );
+                    for( uint_t i = 0; i < n; i++ ) {
+                        printf( "\n%d. ", i + 1 );
+                        values_print( ctx->tmp_msg->args[i] );
+                    }
                 }
-                }
-                else{
-                printf(" not defined");
+                else {
+                    printf( " not defined" );
                 }
             }
         }
