@@ -3,6 +3,7 @@
 struct message {
     VALUE obj;
     VALUE cont;
+    VALUE *result;
     VALUE argc;
     VALUE args[10];
 };
