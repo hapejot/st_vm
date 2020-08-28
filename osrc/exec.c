@@ -25,16 +25,18 @@ static void _wait_input( CONTEXT ctx ) {
                 value_closure_dump( ctx->clr );
             }
             else if( line[0] == 'm' ) {
+                MESSAGE msg = ctx->tmp_msg;
+
                 printf( "\nMessage" );
-                if( ctx->tmp_msg ) {
+                if( msg ) {
                     printf( "\nSelf: " );
-                    values_print( ctx->tmp_msg->obj );
+                    values_print( msg->obj );
                     printf( "\nCont: " );
-                    values_print( ctx->tmp_msg->cont );
-                    uint_t n = VALUE_IDX( ctx->tmp_msg->argc );
+                    values_print( msg->cont );
+                    uint_t n = VALUE_IDX( msg->argc );
                     for( uint_t i = 0; i < n; i++ ) {
                         printf( "\n%d. ", i + 1 );
-                        values_print( ctx->tmp_msg->args[i] );
+                        values_print( msg->args[i] );
                     }
                 }
                 else {
