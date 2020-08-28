@@ -56,7 +56,7 @@ void exec( CONTEXT ctx ) {
             else if( value_eq( sym.global, name ) ) {
                 exec_global( ctx );
             }
-            else if( value_eq( sym.cont, name ) ) {
+            else if( value_eq( sym._continue, name ) ) {
                 exec_cont( ctx );
             }
             else if( value_eq( sym.send, name ) ) {

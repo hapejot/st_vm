@@ -57,7 +57,6 @@ extern struct sym {
     VALUE message;
     VALUE closure;
     VALUE self;
-    VALUE cont;
 } sym;
 #include "cls_mth.h"
 #include "closure.h"

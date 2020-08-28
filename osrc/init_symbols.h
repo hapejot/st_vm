@@ -57,7 +57,6 @@ void _init_symbols(  ) {
         sym.block = value_symbol( "block" );
         sym.call = value_symbol( "call" );
         sym.self = value_symbol("self");
-        sym.cont = value_symbol("cont");
         _initialized = true;
 
 
