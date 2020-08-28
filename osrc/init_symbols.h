@@ -100,8 +100,9 @@ void _init_symbols(  ) {
 
         op++;
         op->name = sym.new;
+        op->assign = true;
         op->defined = true;
-        op->args = 2;
+        op->args = 1;
         op->dis = _disass_default;
 
         op++;
