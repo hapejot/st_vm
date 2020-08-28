@@ -47,7 +47,6 @@ method test in System
     message l_a c1
     param l_b
     result <- send <
-    finish c1
 l2  : 
     l_str <- correct
     param l_str
@@ -353,13 +352,11 @@ method < of Symbol
     tmpvar  result
 
 	c1 <- continue l1 result
-    param self
-    param c1
+    message self c1
     param str
     primitive sym_compare
 l1  :
-    param #-1
-    param CONT
+    message #-1 CONT
     param result
     primitive obj_identical
     end 
