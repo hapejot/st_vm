@@ -37,5 +37,6 @@ add_subdirectory( primitives )
 add_custom_target(GitCommit ALL
                     DEPENDS tst
                     DEPENDS prim_tst
-                    COMMAND git add --all
-                    COMMAND git commit -m"Successful Build" )
+                    COMMAND git add --all || true
+                    COMMAND git commit -m'Successful Build' || true
+                    )
