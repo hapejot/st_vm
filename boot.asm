@@ -354,11 +354,11 @@ method < of Symbol
 	c1 <- continue l1 result
     message self c1
     param str
-    primitive sym_compare
+    cmp <- primitive sym_compare
 l1  :
     message #-1 CONT
-    param result
-    primitive obj_identical
+    param cmp
+    ident <- primitive obj_identical
     end 
 
 method < of SmallInteger

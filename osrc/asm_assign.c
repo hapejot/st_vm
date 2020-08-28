@@ -1,5 +1,6 @@
 #include "obj.h"
 #include "values.h"
+#include <stdlib.h>
 
 static OPCODE *_opcode( VALUE name ) {
     for( uint_t i = 1; i < MAX_OPCODES; i++ ) {
@@ -27,6 +28,10 @@ void asm_assign( CLS_MTH * method, VALUE * argv ) {
 
     OPCODE *opcode = _opcode( argv[2] );
     if( opcode ) {
+        if(!opcode->assign) {
+            fprintf(stderr, "no assign opcode %s\n", value_symbol_str(argv[2]));
+            exit(-1);
+        }
         argc = opcode->args;
         arg_offset = 3;
     }
