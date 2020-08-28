@@ -42,6 +42,8 @@ API void exec_param(CONTEXT ctx);
 API void exec_cont(CONTEXT ctx);
 /* exec_new.c */
 API void exec_new(CONTEXT ctx);
+/* exec_return.c */
+API void exec_return(CONTEXT ctx);
 /* exec_message.c */
 API void exec_message(CONTEXT ctx);
 /* exec.c */

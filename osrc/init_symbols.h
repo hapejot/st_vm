@@ -133,7 +133,7 @@ void _init_symbols(  ) {
 
         _register_op( ++op, "message", &sym.message, 2, exec_message );
         _register_op( ++op, "closure", &sym.closure, 0, NULL );
-        _register_op( ++op, "parvar", &sym.parvar, 1, NULL );
+        _register_op( ++op, "return", &sym.ret, 1, exec_return );
     }
 }
 #endif
