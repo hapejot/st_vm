@@ -37,10 +37,11 @@ typedef struct localvar *LOCALVAR;
 extern struct sym {
     VALUE method;
     VALUE tmpvar;
+    VALUE parvar;
     VALUE global;
     VALUE param;
     VALUE send;
-    VALUE cont;
+    VALUE _continue;
     VALUE jump;
     VALUE instvar;
     VALUE mkcont;
@@ -55,6 +56,8 @@ extern struct sym {
     VALUE call;
     VALUE message;
     VALUE closure;
+    VALUE self;
+    VALUE cont;
 } sym;
 #include "cls_mth.h"
 #include "closure.h"

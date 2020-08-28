@@ -57,6 +57,7 @@ extern OPCODE opcodes[];
 #define KIND_CONT 8 // continuation
 #define KIND_IREF 9 // refrence instance variables
 #define KIND_MSG 10 // message in send status
+#define KIND_PREF 11 // Parameter reference into the message -1 means self, -2 means Continuation
 
 
 #define VALUE_KIND(x) ((x).u.v.kind)

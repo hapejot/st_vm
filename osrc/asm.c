@@ -98,6 +98,10 @@ void _asm_line( int argc, VALUE * argv ) {
         printf( "TMP %s", value_symbol_str( argv[1] ) );
         locals_add( &method->vars, argv[1], 'T' );
     }
+    else if( value_eq( sym.parvar, argv[0] ) ) {
+        printf( "PAR %s", value_symbol_str( argv[1] ) );
+        locals_add( &method->vars, argv[1], 'P' );
+    }
     else if( value_eq( sym.global, argv[0] ) ) {
         uint_t pos;
         printf( "GLOBAL %s", value_symbol_str( argv[1] ) );

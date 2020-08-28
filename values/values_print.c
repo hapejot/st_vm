@@ -36,6 +36,9 @@ void values_print(VALUE x){
             // printf(" CLR:%p", (void*)b->clr);
             printf(" tmps:%d", b->temps);
             break;
+        case KIND_PREF:
+            printf("PREF<%d> ", VALUE_IDX(x));
+            break;
         default:
             printf( "<%d>%05x", VALUE_KIND( x ), VALUE_IDX(x) );
             break;

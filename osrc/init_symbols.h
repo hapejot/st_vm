@@ -43,7 +43,7 @@ void _init_symbols(  ) {
         sym.global = value_symbol( "global" );
         sym.param = value_symbol( "param" );
         sym.send = value_symbol( "send" );
-        sym.cont = value_symbol( "continue" );
+        sym._continue = value_symbol( "continue" );
         sym.jump = value_symbol( "jump" );
         sym.instvar = value_symbol( "instvar" );
         sym.mkcont = value_symbol( "mkcont" );
@@ -56,6 +56,8 @@ void _init_symbols(  ) {
         sym.primitive = value_symbol( "primitive" );
         sym.block = value_symbol( "block" );
         sym.call = value_symbol( "call" );
+        sym.self = value_symbol("self");
+        sym.cont = value_symbol("cont");
         _initialized = true;
 
 
@@ -72,7 +74,7 @@ void _init_symbols(  ) {
         op->dis = _disass_default;
 
         op++;
-        op->name = sym.cont;
+        op->name = sym._continue;
         op->assign = true;                       // means, the code uses assign syntax
         op->defined = true;
         op->args = 2;
@@ -129,7 +131,7 @@ void _init_symbols(  ) {
 
         _register_op( ++op, "message", &sym.message, 2, exec_message );
         _register_op( ++op, "closure", &sym.closure, 0, NULL );
-
+        _register_op( ++op, "parvar", &sym.parvar, 1, NULL );
     }
 }
 #endif
