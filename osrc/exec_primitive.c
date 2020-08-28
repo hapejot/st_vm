@@ -20,7 +20,9 @@ void exec_primitive(CONTEXT ctx) {
         *( void ** )&prim = dlsym( prim_lib, name );
         if( prim ) {
             if(prim( ctx->tmp_msg )) {
-                printf("\nPRIM: %s: okay", name);
+                VALUE dummy;
+                VALUE_LONG(dummy) = 0;
+                continuation_follow(ctx, value_continuation(ctx->tmp_msg->cont), dummy);
             }
             else{
                 printf("\nPRIM: %s: failed", name);
