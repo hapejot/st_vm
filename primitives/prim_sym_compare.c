@@ -6,7 +6,6 @@
 API bool sym_compare( MESSAGE msg ) {
     VALUE self = msg->obj;
     VALUE x = msg->args[0];
-    printf("\nComparing %d vs %d", VALUE_KIND(self), VALUE_KIND(x));
     switch ( VALUE_KIND( self ) ) {
         case KIND_STR:
             if( VALUE_KIND( x ) ) {
@@ -22,6 +21,8 @@ API bool sym_compare( MESSAGE msg ) {
                 printf( "unexpected KIND: %04lx", VALUE_LONG( x ) );
             }
             break;
+        default:
+            printf("\ncan only compare symbols");
     }
     return true;
 }
