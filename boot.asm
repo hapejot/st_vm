@@ -55,8 +55,7 @@ l2  :
     finish c2
 
 l1  :
-    param result
-    param CONT
+    message result CONT
     param c2
     tmp <- send ifTrue:
     end
@@ -100,7 +99,8 @@ l0  :
     param max
     result <- send <
 l0end :
-    goto CONT tmp
+    return tmp
+    goto CONT
 
 l1  :
     param counter
@@ -186,7 +186,8 @@ method new in Foo class
     tmpvar  CONT
     tmpvar t1
     t1 <- new Foo 2
-    goto CONT t1
+    return t1
+    goto CONT 
     end
 
 method set_a: in Foo
@@ -194,7 +195,8 @@ method set_a: in Foo
     tmpvar  CONT
     tmpvar  value
     a <- value
-    goto CONT self
+    return self
+    goto CONT 
 	end
 
 method set_b: in Foo
@@ -202,7 +204,8 @@ method set_b: in Foo
     tmpvar  CONT
     tmpvar  value
     b <- value
-    goto CONT self
+    return self
+    goto CONT 
 	end
 
 method print in Foo
@@ -214,11 +217,13 @@ method print in Foo
 
     param a
     primitive print
-    goto c1 self
+    return self
+    goto c1 
 l1  :
     param b
     primitive print
-    goto CONT result
+    return result
+    goto CONT 
     end
 
 method to: in SmallInteger
