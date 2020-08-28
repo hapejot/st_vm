@@ -4,9 +4,9 @@
 
 void exec_send( CONTEXT ctx ) {
     VALUE t = *( ctx->code )++;
-    VALUE sel = next_code_value(ctx);
-    assert(VALUE_KIND(t) == KIND_TREF);
-    VALUE* tref = ctx->clr->tmp + VALUE_IDX(t);
+    VALUE sel = next_code_value( ctx );
+    assert( VALUE_KIND( t ) == KIND_TREF );
+    VALUE *tref = ctx->clr->tmp + VALUE_IDX( t );
 
     ctx->exec_msg = ctx->tmp_msg;
     ctx->exec_msg->result = tref;

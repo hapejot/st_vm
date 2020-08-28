@@ -16,6 +16,7 @@ API bool sym_compare( MESSAGE msg ) {
                 VALUE_KIND( res ) = KIND_INT;
                 VALUE_IDX( res ) = result;
                 ( void )res;
+                if(msg->result) *msg->result = res;
             }
             else {
                 printf( "unexpected KIND: %04lx", VALUE_LONG( x ) );
