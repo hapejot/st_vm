@@ -53,6 +53,8 @@ API void exec_send(CONTEXT ctx);
 /* exec_goto.c */
 API void continuation_follow(CONTEXT ctx, CONTINUATION cc, VALUE tv);
 API void exec_goto(CONTEXT ctx);
+/* dump_message.c */
+API void dump_message(MESSAGE msg);
 /* main.c */
 API void print_line(WORDS ws);
 API VALUE value_parse(char *str);

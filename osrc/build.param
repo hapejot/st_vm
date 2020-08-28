@@ -11,5 +11,6 @@ source asm.c
 source methods.c
 source asm_*.c
 source exec*.c
+source dump_message.c
 
 main tst main.c
