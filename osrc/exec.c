@@ -22,8 +22,8 @@ static void _wait_input( CONTEXT ctx ) {
                 return;
             else if( line[0] == 'c' )            // print closure
             {
-                printf("\nExecuting Message:");
-                dump_message(ctx->exec_msg);
+                printf( "\nExecuting Message:" );
+                dump_message( ctx->exec_msg );
                 value_closure_dump( ctx->clr );
             }
             else if( line[0] == 'm' ) {

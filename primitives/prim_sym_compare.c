@@ -6,6 +6,7 @@
 API bool sym_compare( MESSAGE msg ) {
     VALUE self = msg->obj;
     VALUE x = msg->args[0];
+    printf("\nComparing %d vs %d", VALUE_KIND(self), VALUE_KIND(x));
     switch ( VALUE_KIND( self ) ) {
         case KIND_STR:
             if( VALUE_KIND( x ) ) {
