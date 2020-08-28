@@ -51,6 +51,10 @@ extern struct sym {
     VALUE new;
     VALUE go_to;
     VALUE primitive;
+    VALUE block;
+    VALUE call;
+    VALUE message;
+    VALUE closure;
 } sym;
 #include "cls_mth.h"
 #include "closure.h"

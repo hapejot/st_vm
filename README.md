@@ -25,28 +25,35 @@ results of partially evaluated expressions.
 Definition of the instructions
 ===
 
-Code|Description
--|-
-method <name> <filler> <class>|start method implementation
-tmpvar <name>|temporary variable declaration reserves space in the closure
-ivar <name>|instance variables need to be declared explicitly in each method implementation
-end|ends an implementation. Is no real opcode, it is just there to control the assembler
-registers|these are global to the interpreter
-r0|register contains current result of operation
-temporaries|these are local to the method execution and are keept local in a closure
-t0|the first unnamed temporary, that is automatically allocated
-"label":|is an address local to the method given in a relative address to the start of the method.
+Code                            |Description
+-                               |-
+method <name> <filler> <class>  |start method implementation
+tmpvar <name>                   |temporary variable declaration reserves space in the closure
+ivar <name>                     |instance variables need to be declared explicitly in each method implementation
+end                             |ends an implementation. Is no real opcode, it is just there to control the assembler
+registers                       |these are global to the interpreter
+r0                              |register contains current result of operation
+temporaries                     |these are local to the method execution and are keept local in a closure
+t0                              |the first unnamed temporary, that is automatically allocated
+"label"  :                      |is an address local to the method given in a relative address to the start of the method.
 
-cont|creates a continuation based on the current closure and the address of a label.
-param|adds a parameter to the next "send"
-send|is looking up the apropriate implementation for the method selector and the current reciever and calls it.
-global|...
-assign|...
-jump|...
+cont                            |creates a continuation based on the current closure and the address of a label.
+param                           |adds a parameter to the next "send"
+send                            
+        |is  looking up the apropriate implementation for the method selector and the current reciever and calls it.
+global <t> <value>
+        |<value> can be any value, usually is a symbol. the global statement looks up the key in the globals table and stores the result in the temporary var <t>
+assign                          |...
+goto                            |...
 
 
+block               : code ptr + temp vars def
 
+closure             : tmp vars values
 
+continuation        : closure + code ptr + ( next continuation )
+
+execution context   : closure + code ptr
 
 From Appels paper (1989)
 ---

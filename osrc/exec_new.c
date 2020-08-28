@@ -2,8 +2,8 @@
 #include "values.h"
 #include <stdio.h>
 
-void exec_new( VALUE ** codeptr, CLOSURE clr ) {
-#define code (*codeptr)
+void exec_new(CONTEXT ctx) {
+#define code (ctx->code)
     VALUE t = *code++;
     VALUE cname = *code++;
     VALUE ivars = *code++;
@@ -14,6 +14,6 @@ void exec_new( VALUE ** codeptr, CLOSURE clr ) {
         return;
     }
     VALUE o = value_obj_new( cls );
-    clr->tmp[t.u.v.idx] = o;
+    ctx->clr->tmp[t.u.v.idx] = o;
     printf( " 0x%04lx <- 0x%04lx", t.u.l, o.u.l );
 }

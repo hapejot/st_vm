@@ -14,6 +14,7 @@ struct obj {
 
 struct obj objects[MAXOBJ];
 VALUE sym_cls;
+VALUE short_cls;
 VALUE nil_cls;
 VALUE bool_cls;
 VALUE true_cls;
@@ -28,14 +29,15 @@ static void _initialize(  ) {
     sym_cls = value_obj_new( nil_cls );
     bool_cls = value_obj_new( nil_cls );
     true_cls = value_obj_new( nil_cls );
-    false_cls = value_obj_new( nil_cls);
-    true_val = value_obj_new(true_cls);
-    false_val = value_obj_new(false_cls);
-    block_cls = value_obj_new(nil_cls);
+    false_cls = value_obj_new( nil_cls );
+    true_val = value_obj_new( true_cls );
+    false_val = value_obj_new( false_cls );
+    block_cls = value_obj_new( nil_cls );
+    short_cls = value_obj_new( nil_cls );
 }
 
-API void init_classes(){
-    _initialize();
+API void init_classes(  ) {
+    _initialize(  );
 }
 
 API VALUE value_obj_new( VALUE cls ) {
@@ -56,7 +58,7 @@ API VALUE value_obj_new( VALUE cls ) {
 
 
 API VALUE value_obj_class( VALUE o ) {
-    assert(_initialized);
+    assert( _initialized );
     VALUE r = {.u.l = 0 };
     switch ( VALUE_KIND( o ) ) {
         case KIND_OBJ:
@@ -65,15 +67,18 @@ API VALUE value_obj_class( VALUE o ) {
         case KIND_STR:
             r = sym_cls;
             break;
-        case KIND_CONT:
+        case KIND_BLK:
             r = block_cls;
+            break;
+        case KIND_INT:
+            r = short_cls;
             break;
     }
     return r;
 }
 
 API VALUE value_obj_ivar( VALUE o, VALUE ref ) {
-    assert(_initialized);
+    assert( _initialized );
     if( VALUE_KIND( o ) == KIND_OBJ && VALUE_KIND( ref ) == KIND_IREF ) {
         return objects[VALUE_IDX( o )].ivar[VALUE_IDX( ref )];
     }
@@ -83,14 +88,14 @@ API VALUE value_obj_ivar( VALUE o, VALUE ref ) {
     }
 }
 API void value_obj_ivar_set( VALUE o, VALUE ref, VALUE v ) {
-    assert(_initialized);
+    assert( _initialized );
     if( VALUE_KIND( o ) == KIND_OBJ && VALUE_KIND( ref ) == KIND_IREF ) {
         objects[VALUE_IDX( o )].ivar[VALUE_IDX( ref )] = v;
     }
 }
 
 API void value_obj_dump(  ) {
-    assert(_initialized);
+    assert( _initialized );
     printf( "\n\nOBJECTS:" );
     for( int i = 0; i < MAXOBJ; i++ ) {
         if( objects[i].active ) {

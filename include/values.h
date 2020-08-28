@@ -3,6 +3,13 @@
 #include "platform.h"
 #include <stdbool.h>
 #include <sys/types.h>
+
+typedef struct context *CONTEXT;
+typedef struct closure *CLOSURE;
+typedef struct continuation *CONTINUATION;
+typedef struct block *BLOCK;
+typedef struct message *MESSAGE;
+
 typedef struct value
 {
     union {
@@ -15,16 +22,20 @@ typedef struct value
     } u;
 } VALUE;
 
+typedef void (*DISASS)(VALUE *code);
+typedef void (*OPEXEC)(CONTEXT);
 typedef struct opcode {
     VALUE name;
-    int params;
     bool assign;
     bool defined;
     uint_t args;
     uint_t code;
+    DISASS dis;
+    OPEXEC exe;
 } OPCODE;
 
 extern VALUE sym_cls;
+extern VALUE short_cls;
 extern VALUE true_cls;
 extern VALUE false_cls;
 extern VALUE bool_cls;
@@ -42,9 +53,11 @@ extern OPCODE opcodes[];
 #define KIND_TREF 4 // reference for temporary variable
 #define KIND_OBJ 5 // regular object
 #define KIND_MEM 6 // memory reference
-#define KIND_CPR 7 // code pointer
+#define KIND_BLK 7 // block
 #define KIND_CONT 8 // continuation
-#define KIND_IREF 9
+#define KIND_IREF 9 // refrence instance variables
+#define KIND_MSG 10 // message in send status
+
 
 #define VALUE_KIND(x) ((x).u.v.kind)
 #define VALUE_IDX(x)  ((x).u.v.idx)
@@ -52,7 +65,9 @@ extern OPCODE opcodes[];
 
 #include "closure.h"
 #include "continuation.h"
-
+#include "block.h"
+#include "context.h"
+#include "message.h"
 #undef API
 #define API API_EXT
 #include "values.func.h"

@@ -33,3 +33,7 @@ endif()
 add_subdirectory( osrc  )
 add_subdirectory( values )
 add_subdirectory( primitives )
+
+add_custom_target(GitCommit ALL
+                    COMMAND git add --all
+                    COMMAND git commit -m"Successful Build" )

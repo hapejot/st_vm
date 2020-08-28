@@ -29,26 +29,29 @@ static bool _global_idx( uint_t * idx, VALUE key ) {
     }
     return found;
 }
+
 static bool globals_initialized = false;
-void _globals_initialize(){
-        globals_initialized = true;
-        _global_put( value_symbol( "Symbol" ), sym_cls );
-        _global_put( value_symbol( "Boolean" ), bool_cls );
-        _global_put( value_symbol( "True" ), true_cls );
-        _global_put( value_symbol( "False" ), false_cls );
-        _global_put( value_symbol( "Block" ), block_cls );
+void _globals_initialize(  ) {
+    globals_initialized = true;
+    _global_put( value_symbol( "Symbol" ), sym_cls );
+    _global_put( value_symbol( "Boolean" ), bool_cls );
+    _global_put( value_symbol( "True" ), true_cls );
+    _global_put( value_symbol( "False" ), false_cls );
+    _global_put( value_symbol( "Block" ), block_cls );
+    _global_put( value_symbol( "SmallInteger" ), short_cls );
 
 
-        printf("\nsym cls: %04lx", VALUE_LONG(sym_cls));
+    printf( "\nsym cls: %04lx", VALUE_LONG( sym_cls ) );
 }
 
-void init_globals(){
-    _globals_initialize();
+void init_globals(  ) {
+    _globals_initialize(  );
 }
 
 void _global_put( VALUE key, VALUE value ) {
     uint_t idx;
-    if( !globals_initialized ) _globals_initialize();
+    if( !globals_initialized )
+        _globals_initialize(  );
     if( _global_idx( &idx, key ) ) {
         globals[idx].value = value;
     }
@@ -60,7 +63,8 @@ void _global_put( VALUE key, VALUE value ) {
 
 VALUE _global( VALUE key ) {
     VALUE r = {.u.l = 0 };
-    if( !globals_initialized ) _globals_initialize();
+    if( !globals_initialized )
+        _globals_initialize(  );
 
     for( uint_t i = 0; i < MAXGLOBALS; i++ ) {
         if( value_eq( globals[i].key, key ) ) {
@@ -71,15 +75,15 @@ VALUE _global( VALUE key ) {
     return r;
 }
 
-void _globals_dump(){
-    printf("\nGLOBALS");
+void _globals_dump(  ) {
+    printf( "\nGLOBALS" );
     for( uint_t i = 0; i < MAXGLOBALS; i++ ) {
-        if(VALUE_KIND(globals[i].key) == KIND_STR){
-            printf("\n%s: %04lx", value_symbol_str(globals[i].key),
-                                VALUE_LONG(globals[i].value));
+        if( VALUE_KIND( globals[i].key ) == KIND_STR ) {
+            printf( "\n%s: %04lx", value_symbol_str( globals[i].key ),
+                    VALUE_LONG( globals[i].value ) );
         }
     }
-    printf("\n---\n");
+    printf( "\n---\n" );
 }
 
 #include "append_method.h"
@@ -125,29 +129,11 @@ void _asm_line( int argc, VALUE * argv ) {
         for( uint_t i = 0; i < MAX_OPCODES; i++ ) {
             if( opcodes[i].defined ) {
                 if( value_eq( opcodes[i].name, argv[0] ) ) {
+                    OPCODE *op = opcodes + i;
                     printf( "OP %d %s", i, value_symbol_str( argv[0] ) );
                     value_code_emit_o( i );
-                    uint_t pos;
-                    for( uint j = 1; j < 4; j++ ) {
-                        if( !value_isnil( argv[j] ) ) {
-                            char l = locals_lookup( &pos, method->vars,
-                                                    argv[j] );
-                            if( l != ' ' ) {
-                                value_code_emit_v( value_mk
-                                                   ( KIND_TREF, pos ) );
-                            }
-                            else {
-                                const char *argstr =
-                                        value_symbol_str( argv[j] );
-                                if( argstr[0] == '#' ) {
-                                    int x = atoi( argstr + 1 );
-                                    value_code_emit_v( value_mk
-                                                       ( KIND_INT, x ) );
-                                }
-                                else
-                                    value_code_emit_v( argv[j] );
-                            }
-                        }
+                    for( uint j = 0; j < op->args; j++ ) {
+                        asm_parse_arg( method, argv[1 + j] );
                     }
                     break;
                 }

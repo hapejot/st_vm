@@ -1,3 +1,5 @@
+/* values_print.c */
+API void values_print(VALUE x);
 /* values_symbol.c */
 API VALUE value_symbol(char *str);
 API const char *value_symbol_str(VALUE v);
@@ -19,6 +21,9 @@ API void value_obj_dump(void);
 /* values_closure.c */
 API CLOSURE value_closure_mk(void);
 API void value_closure_dump(CLOSURE clr);
+/* values_block.c */
+API VALUE value_block_new(CLOSURE clr, VALUE ref, VALUE temps);
+API BLOCK value_block_ptr(VALUE b);
 /* values_basic.c */
 API _Bool value_eq(VALUE a, VALUE b);
 API void value_clear(VALUE *v);

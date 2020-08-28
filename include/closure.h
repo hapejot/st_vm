@@ -6,7 +6,6 @@
  *
  *
  */
-typedef struct closure *CLOSURE;
 
 struct closure {
     bool active;

@@ -14,10 +14,10 @@ static OPCODE *_opcode( VALUE name ) {
 
 void asm_assign( CLS_MTH * method, VALUE * argv ) {
     uint_t pos0;                // local position of target value
-    uint_t pos1;
     uint_t argc = 1;
     uint_t arg_offset = 2;
     printf( "ASSIGN" );
+
 /* opcode could be the assign itself or the first name after 
  * the symbol.
  * first we check for an opcode at position 2.
@@ -59,14 +59,6 @@ void asm_assign( CLS_MTH * method, VALUE * argv ) {
 
 
     for( uint_t i = 0; i < argc; i++ ) {
-        VALUE v = argv[arg_offset + i];
-        char l = locals_lookup( &pos1, method->vars, v );
-        if( l != ' ' ) {
-            printf( " %c %d", l, pos1 );
-            value_code_emit_v( value_mk( KIND_TREF, pos1 ) );
-        }
-        else {
-            value_code_emit_v( v );
-        }
+        asm_parse_arg(method, argv[arg_offset + i]);
     }
 }

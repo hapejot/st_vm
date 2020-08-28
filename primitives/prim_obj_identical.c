@@ -2,13 +2,11 @@
 #include "obj.h"
 #include "values.h"
 #include <string.h>
+#include <assert.h>
 
-API CONTINUATION obj_identical( CLOSURE clr ) {
-    printf(" IDENTITY ");
-    VALUE self = clr->tmp[0];
-    VALUE cnt = clr->tmp[1];
-    CONTINUATION cont = value_continuation( cnt );
-    VALUE x = clr->tmp[2];
+API bool obj_identical( MESSAGE msg ) {
+    VALUE self = msg->obj;
+    VALUE x = msg->args[0];
     VALUE res;
     if( VALUE_LONG( x ) == VALUE_LONG( self ) ) {
         res = true_val;
@@ -16,7 +14,6 @@ API CONTINUATION obj_identical( CLOSURE clr ) {
     else{
         res = false_val;
     }
-    cont->closure->tmp[VALUE_IDX( cont->tref )] = res;
-    value_closure_dump( cont->closure );
-    return cont;
+    (void)res;
+    return true;
 }

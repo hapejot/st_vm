@@ -44,15 +44,16 @@ method test in System
 
     l_a <- a
     l_b <- b
-    param l_a
-    param c1
+    message l_a c1
     param l_b
     result <- send <
+    finish c1
 l2  : 
     l_str <- correct
     param l_str
     param CONT
     tmp <- send print
+    finish c2
 
 l1  :
     param result
@@ -79,24 +80,29 @@ method testLoop in System
     tmpvar  incr
     tmpvar  b0
 
+-- save CONT for later
+    finish <- CONT
     counter <- #1
-    max <- 10
-    incr <- 1
+    max <- #10
+    incr <- #1
 
-    c0 <- continue l0 b0
-    c1 <- continue l1 tmp
+    b0 <- block l0  #0
+    b1 <- block l1  #0
 
-    param c0
+    param b0
     param CONT
-    param c1
+    param b1
     tmp <- send whileTrue:
     
 l0  :
     param counter
---  c1 should be controlled by the whileTrue method
+    c1 <- continue l0end tmp
     param c1
     param max
     result <- send <
+l0end :
+    goto CONT tmp
+
 l1  :
     param counter
     param c2
@@ -109,12 +115,6 @@ l2  :
 
     end
 
-method value for Block
-    tmpvar      self
-    tmpvar      Cont
-    tmpvar      result
-
-    
 
 method whileTrue: for Block
 --  whileTrue: aBlock 
@@ -130,16 +130,19 @@ method whileTrue: for Block
     tmpvar      Cont
     tmpvar      aBlock
     tmpvar      result
+    tmpvar      tmp
 
-    goto self
+    c1 <- continue l1 tmp
+    c2 <- continue l2 tmp
+    c3 <- continue l3 tmp
 
     param self 
-    param c0
+    param c1
     result <- send  value
 l1  :
-    param s r0
-    param 0 l2
-    param c cont
+    param result
+    param cont
+    param c2
     send r ifTrue: 
 l2  :
     param s aBlock
@@ -258,10 +261,10 @@ method from:to: in Interval class
 -- 	step _ stepInteger!
 
 method value in Block
-    pvar    s self
-    pvar    c cont
+    tmpvar   self
+    tmpvar   cont
 
-    jmp self
+    call self cont
     end
 
 
@@ -354,6 +357,24 @@ method < of Symbol
     param c1
     param str
     primitive sym_compare
+l1  :
+    param #-1
+    param CONT
+    param result
+    primitive obj_identical
+    end 
+
+method < of SmallInteger
+    tmpvar  self
+    tmpvar  CONT
+	tmpvar	str
+    tmpvar  result
+
+	c1 <- continue l1 result
+    param self
+    param c1
+    param str
+    primitive int_compare
 l1  :
     param #-1
     param CONT

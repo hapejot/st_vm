@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include <dlfcn.h>
+#include <assert.h>
 
 #include "key_val.h"
 #include "cls_mth.h"
@@ -25,8 +26,6 @@ CLS_MTH *method;                // current method
 #define OP_TMPVAR 3
 #define OP_GLOBAL 4
 #define OP_CONTINUE 5
-
-void *prim_lib;
 
 /*
  * PROTOTYPES
@@ -83,7 +82,7 @@ uint_t _op_find( VALUE name ) {
 
 
 
-static CLS_MTH *_lookup_method_and_class( VALUE cls, VALUE sel ) {
+CLS_MTH *lookup_method_and_class( VALUE cls, VALUE sel ) {
     CLS_MTH *result = NULL;
     for( uint_t i = 0; i < top_methods; i++ ) {
         if( methods[i].cls.u.l == cls.u.l && methods[i].sel.u.l == sel.u.l ) {
@@ -93,8 +92,6 @@ static CLS_MTH *_lookup_method_and_class( VALUE cls, VALUE sel ) {
     }
     return result;
 }
-
-#include "exec.h"
 
 int main( int argc, char **argv ) {
 
@@ -128,7 +125,7 @@ int main( int argc, char **argv ) {
             value_clear( &line[idx] );
         _asm_line( idx, line );
     }
-    CLS_MTH *m = _lookup_method_and_class( _global( value_symbol( argv[2] ) ),
+    CLS_MTH *m = lookup_method_and_class( _global( value_symbol( argv[2] ) ),
                                            value_symbol( argv[3] ) );
     if( m ) {
         _globals_dump();
@@ -136,7 +133,10 @@ int main( int argc, char **argv ) {
         method_dump(  );
         value_ivar_dump();
         printf( "M:%d\n", m->no );
-        _exec( value_closure_mk(  ), m->code );
+        struct context ctx;
+        ctx.clr = value_closure_mk();
+        ctx.ref = m->code;
+        exec(&ctx);
     }
     return 0;
 }
