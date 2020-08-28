@@ -13,18 +13,16 @@ void exec_primitive( CONTEXT ctx ) {
         bool ( *prim ) ( MESSAGE );
         VALUE t = *ctx->code++;
         assert( VALUE_KIND( t ) == KIND_TREF );
-        ctx->tmp_msg->result = ctx->clr->tmp + VALUE_IDX( t );
 
         VALUE s = *ctx->code++;
         const char *name = value_symbol_str( s );
         *( void ** )&prim = dlsym( prim_lib, name );
         if( prim ) {
-            if( prim( ctx->tmp_msg ) ) {
-                VALUE dummy;
-                VALUE_LONG( dummy ) = 0;
+            MESSAGE msg = ctx->tmp_msg;
+            if( prim( msg ) ) {
                 continuation_follow( ctx,
-                                     value_continuation( ctx->tmp_msg->cont ),
-                                     dummy );
+                                     value_continuation( msg->cont ),
+                                     msg->result );
             }
             else {
                 printf( "\nPRIM: %s: failed", name );

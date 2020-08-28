@@ -14,6 +14,6 @@ API bool obj_identical( MESSAGE msg ) {
     else{
         res = false_val;
     }
-    if(msg->result) *msg->result = res;
+    msg->result = res;
     return true;
 }
