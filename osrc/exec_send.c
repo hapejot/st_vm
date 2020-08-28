@@ -14,6 +14,7 @@ void exec_send( CONTEXT ctx ) {
     VALUE cls = value_obj_class( ctx->exec_msg->obj );
     CLS_MTH *m = lookup_method_and_class( cls, sel );
     if( m ) {
+        ctx->clr = value_closure_mk();
         ctx->ref = m->code;
         ctx->code = value_code_ptr( ctx->ref );
     }
