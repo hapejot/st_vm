@@ -113,7 +113,7 @@ void _init_symbols(  ) {
 
         op++;
         op->name = sym.primitive;
-        op->assign = true;
+        op->assign = false;
         op->defined = true;
         op->args = 1;
         op->dis = _disass_default;
