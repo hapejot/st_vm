@@ -126,11 +126,12 @@ void _asm_line( int argc, VALUE * argv ) {
         value_code_emit_fixup( argv[0] );
     }
     else if( value_eq( sym.block, argv[1] ) ) {
-        VALUE n;
-        VALUE_LONG( n ) = 0;
-// current_block = value_block_new(value_code_ptr(), n);
+        VALUE n = value_mk( KIND_INT, 0);
+
+        VALUE block_start = value_code_emit_fixup(argv[0]);
+        current_block = value_block_new(block_start, n);
 // current_block_ptr = value_block_ptr(current_block);
-        ( void )n;
+        (void)n;
     }
     else if( value_eq( sym.assign, argv[1] ) ) {
         asm_assign( method, argv );

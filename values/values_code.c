@@ -1,8 +1,6 @@
 #include "values.h"
 #include <stdio.h>
 
-
-
 OPCODE opcodes[MAX_OPCODES];
 
 #define MAXCODE 1000
@@ -49,7 +47,7 @@ API void value_code_emit_v( VALUE src ) {
     top++;
 }
 
-API void value_code_emit_fixup( VALUE v ) {
+API VALUE value_code_emit_fixup( VALUE v ) {
     printf("\nFIXING %s  [%x-%x]", value_symbol_str(v), start, top);
     for( uint_t i = start; i < top; i++ ) {
         if( value_eq( v, code[i] ) ) {
@@ -57,6 +55,7 @@ API void value_code_emit_fixup( VALUE v ) {
             code[i] = value_mk( KIND_REF, top );
         }
     }
+    return value_mk(KIND_REF, top);
 }
 
 API VALUE value_code_start(  ) {
