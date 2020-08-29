@@ -133,6 +133,7 @@ int main( int argc, char **argv ) {
         method_dump(  );
         value_ivar_dump();
         printf( "M:%d\n", m->no );
+        fflush(stdout);
         struct context ctx;
         ctx.clr = value_closure_mk();
         ctx.ref = m->code;
