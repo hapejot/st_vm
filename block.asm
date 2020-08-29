@@ -12,7 +12,6 @@ method testLoop in System
     tmpvar  counter
     tmpvar  max
     tmpvar  incr
-    tmpvar  b0
 
 -- save CONT for later
     finish <- CONT
@@ -20,8 +19,8 @@ method testLoop in System
     max <- #10
     incr <- #1
 
-    b0 <- continue l0 tmp 
-    b1 <- continue l1 tmp
+--  b0 <- continue l0 tmp 
+--  b1 <- continue l1 tmp
 
     message b0 CONT
     param b1
@@ -127,7 +126,7 @@ method < of Symbol
 	c1 <- continue l1 result
     message self c1
     param str
-    cmp <- primitive sym_compare
+    primitive sym_compare
 l1  :
     message #-1 CONT
     param result
