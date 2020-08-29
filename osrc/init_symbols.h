@@ -69,7 +69,7 @@ void _init_symbols(  ) {
         op++;
         op->name = sym.send;
         op->defined = true;
-        op->assign = true;
+        op->assign = false;
         op->args = 1;
         op->dis = _disass_default;
 

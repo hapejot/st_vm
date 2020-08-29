@@ -67,6 +67,7 @@ l1  :
                         counter <- counter + 1 ]
 --
 method testLoop in System
+
     tmpvar  self
     tmpvar  CONT
     tmpvar  result
@@ -89,7 +90,7 @@ method testLoop in System
     param b1
     tmp <- send whileTrue:
     
-l0  :
+b0  block 
     param counter
     c1 <- continue l0end tmp
     param c1
@@ -99,11 +100,12 @@ l0end :
     return tmp
     goto CONT
 
-l1  :
+l1  block
     param counter
     param c2
     tmp <- send print
-l2  : 
+
+l2  :
     param counter
     param xxxxx
     param incr
