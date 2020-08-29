@@ -1,5 +1,7 @@
 #include "obj.h"
 #include "values.h"
+#include <assert.h>
+
 void continuation_follow( CONTEXT ctx, CONTINUATION cc, VALUE tv ) {
     if( cc ) {
         uint_t idx_t = VALUE_IDX( cc->tref );
@@ -16,9 +18,8 @@ void continuation_follow( CONTEXT ctx, CONTINUATION cc, VALUE tv ) {
 
 void exec_goto( CONTEXT ctx ) {
     VALUE t = *( ctx->code )++; // ref to temp of continuation
-    if( VALUE_KIND( t ) == KIND_TREF ) {
-        t = ctx->clr->tmp[VALUE_IDX( t )];
-    }
+    assert( VALUE_KIND( t ) == KIND_TREF );
+    t = ctx->clr->tmp[VALUE_IDX( t )];
     CONTINUATION cc = value_continuation( t );
     continuation_follow( ctx, cc, ctx->exec_msg->result );
 }

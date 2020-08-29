@@ -262,7 +262,7 @@ method value in Block
     tmpvar   self
     tmpvar   cont
 
-    call self cont
+    goto self cont
     end
 
 
