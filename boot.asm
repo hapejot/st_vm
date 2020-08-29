@@ -82,8 +82,8 @@ method testLoop in System
     max <- #10
     incr <- #1
 
-    b0 <- block l0  #0
-    b1 <- block l1  #0
+    b0 <- continue l0 tmp 
+    b1 <- continue l1 tmp
 
     message b0 CONT
     param b1

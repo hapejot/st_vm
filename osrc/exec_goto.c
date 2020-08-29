@@ -20,7 +20,15 @@ void exec_goto( CONTEXT ctx ) {
     VALUE t = *( ctx->code )++; // ref to temp of continuation
     if( VALUE_KIND( t ) == KIND_TREF )
         t = ctx->clr->tmp[VALUE_IDX( t )];
-    assert(VALUE_KIND(t) == KIND_REF );
-    CONTINUATION cc = value_continuation( t );
-    continuation_follow( ctx, cc, ctx->exec_msg->result );
+    CONTINUATION cc = NULL;
+    switch ( VALUE_KIND( t ) ) {
+        case KIND_CONT:
+            cc = value_continuation( t );
+            continuation_follow( ctx, cc, ctx->exec_msg->result );
+            break;
+        default:
+            printf( "\ngoto used with non-continuation: " );
+            values_print( t );
+            break;
+    }
 }

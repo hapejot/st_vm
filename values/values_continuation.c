@@ -12,8 +12,8 @@ API VALUE value_continuation_new( CLOSURE clr, VALUE ref, VALUE tref ) {
             cc->ref = ref;
             cc->tref = tref;
 
-            r.u.v.idx = i;
-            r.u.v.kind = KIND_CONT;
+            VALUE_IDX(r) = i;
+            VALUE_KIND(r) = KIND_CONT;
             break;
         }
     }
@@ -21,7 +21,7 @@ API VALUE value_continuation_new( CLOSURE clr, VALUE ref, VALUE tref ) {
 }
 
 API CONTINUATION value_continuation( VALUE c ){
-    if( c.u.v.kind == KIND_CONT ){
+    if( VALUE_KIND(c) == KIND_CONT ){
         return continuations + c.u.v.idx;
     }
     else
