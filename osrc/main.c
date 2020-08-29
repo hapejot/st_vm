@@ -54,6 +54,7 @@ void print_line( WORDS ws ) {
 
 VALUE value_parse( char *str ) {
     VALUE r;
+    VALUE_LONG(r) = 0;
     if( str[0] == '#' )
         r = value_int( atoi( str + 1 ) );
     return r;

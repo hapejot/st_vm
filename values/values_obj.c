@@ -44,12 +44,13 @@ API VALUE value_obj_new( VALUE cls ) {
     if( !_initialized )
         _initialize(  );
     VALUE o;
+    VALUE_LONG(o) = 0;
     for( int i = 0; i < MAXOBJ; i++ ) {
         if( !objects[i].active ) {
             objects[i].active = true;
             objects[i].cls = cls;
-            o.u.v.kind = KIND_OBJ;
-            o.u.v.idx = i;
+            VALUE_KIND(o) = KIND_OBJ;
+            VALUE_IDX(o) = i;
             break;
         }
     }

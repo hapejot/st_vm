@@ -85,8 +85,7 @@ method testLoop in System
     b0 <- block l0  #0
     b1 <- block l1  #0
 
-    param b0
-    param CONT
+    message b0 CONT
     param b1
     tmp <- send whileTrue:
     
@@ -133,18 +132,15 @@ method whileTrue: for Block
     c2 <- continue l2 tmp
     c3 <- continue l3 tmp
 
-    param self 
-    param c1
-    result <- send  value
+    message self c1
+    tmp <- send  value
 l1  :
-    param result
-    param cont
+    message tmp Cont
     param c2
-    send r ifTrue: 
+    tmp <- send ifTrue: 
 l2  :
-    param s aBlock
-    param c l3
-    send t0 value
+    message aBlock c3
+    tmp <- send value
 l3  :
     param s self
     param 0 aBlock
