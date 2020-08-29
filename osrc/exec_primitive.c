@@ -21,8 +21,7 @@ void exec_primitive( CONTEXT ctx ) {
             MESSAGE msg = ctx->tmp_msg;
             if( prim( msg ) ) {
                 CONTINUATION cc = value_continuation( msg->cont );
-                if( cc )
-                    continuation_follow( ctx, cc, msg->result );
+                continuation_follow( ctx, cc, msg->result );
             }
             else {
                 printf( "\nPRIM: %s: failed", name );
