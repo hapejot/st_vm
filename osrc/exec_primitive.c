@@ -20,9 +20,9 @@ void exec_primitive( CONTEXT ctx ) {
         if( prim ) {
             MESSAGE msg = ctx->tmp_msg;
             if( prim( msg ) ) {
-                continuation_follow( ctx,
-                                     value_continuation( msg->cont ),
-                                     msg->result );
+                CONTINUATION cc = value_continuation( msg->cont );
+                if( cc )
+                    continuation_follow( ctx, cc, msg->result );
             }
             else {
                 printf( "\nPRIM: %s: failed", name );

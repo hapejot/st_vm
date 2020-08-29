@@ -49,10 +49,8 @@ method test in System
     result <- send <
 l2  : 
     l_str <- correct
-    param l_str
-    param CONT
+    message l_str CONT
     tmp <- send print
-    finish c2
 
 l1  :
     message result CONT
@@ -289,11 +287,11 @@ method ifTrue: for True
 
 
 method ifTrue: for False
-    pvar    s self
-    pvar    0 block
-    pvar    c cont
+    tmpvar  self
+    tmpvar  cont
+    tmpvar  trueBranch
 
-    jmp cont
+    goto cont
     end
 
 
@@ -345,9 +343,8 @@ method print of Symbol
     tmpvar  CONT
 	tmpvar	str
 
-    param   self
-    param   CONT
-    primitive print
+    message self CONT
+    str <- primitive print
     end
 
 method < of Symbol
@@ -362,7 +359,7 @@ method < of Symbol
     cmp <- primitive sym_compare
 l1  :
     message #-1 CONT
-    param cmp
+    param result
     ident <- primitive obj_identical
     end 
 
