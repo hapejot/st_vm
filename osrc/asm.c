@@ -14,6 +14,9 @@ KEY_VAL globals[MAXGLOBALS];
 #include "cls_mth.h"
 CLS_MTH *method;
 
+BLOCK current_block_ptr;
+VALUE current_block;
+
 static bool _global_idx( uint_t * idx, VALUE key ) {
     bool found = false;
     for( uint_t i = 0; i < MAXGLOBALS; i++ ) {
@@ -98,10 +101,6 @@ void _asm_line( int argc, VALUE * argv ) {
         printf( "TMP %s", value_symbol_str( argv[1] ) );
         locals_add( &method->vars, argv[1], 'T' );
     }
-    else if( value_eq( sym.parvar, argv[0] ) ) {
-        printf( "PAR %s", value_symbol_str( argv[1] ) );
-        locals_add( &method->vars, argv[1], 'P' );
-    }
     else if( value_eq( sym.global, argv[0] ) ) {
         uint_t pos;
         printf( "GLOBAL %s", value_symbol_str( argv[1] ) );
@@ -125,6 +124,12 @@ void _asm_line( int argc, VALUE * argv ) {
     else if( value_eq( sym.label, argv[1] ) ) {
         printf( "LABEL" );
         value_code_emit_fixup( argv[0] );
+    }
+    else if(value_eq(sym.block, argv[1])){
+        VALUE n;
+        VALUE_LONG(n) = 0;
+        // current_block = value_block_new(value_code_ptr(), n);
+        // current_block_ptr = value_block_ptr(current_block);
     }
     else if( value_eq( sym.assign, argv[1] ) ) {
         asm_assign( method, argv );
