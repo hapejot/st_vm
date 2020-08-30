@@ -23,6 +23,7 @@ API void value_obj_dump(void);
 API CLOSURE value_closure_mk(void);
 API void value_closure_dump(CLOSURE clr);
 /* values_block.c */
+API void value_block_dump(void);
 API VALUE value_block_new(void);
 API BLOCK value_block_ptr(VALUE b);
 /* values_basic.c */

@@ -132,6 +132,7 @@ int main( int argc, char **argv ) {
         _globals_dump();
         value_obj_dump(  );
         method_dump(  );
+        value_block_dump();
         value_ivar_dump();
         printf( "M:%d\n", m->no );
         fflush(stdout);
