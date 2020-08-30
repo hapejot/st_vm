@@ -23,6 +23,7 @@ API VALUE value_block_new( ) {
         if( !b->active ) {
             VALUE_KIND( r ) = KIND_BLK;
             VALUE_IDX( r ) = i;
+            b->active = true;
             break;
         }
     }
