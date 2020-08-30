@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 typedef struct key_val {
     VALUE key;
@@ -112,9 +113,11 @@ void _asm_line( int argc, VALUE * argv ) {
     }
     else if( value_eq( sym.end, argv[0] ) ) {
         printf( "END" );
-        locals_dump( method->vars );
-        method->codelen = value_code_len(  );
-        value_code_dump( method->code, method->codelen );
+        BLOCK b = method->current_block;
+        assert( b );
+        b->length = value_code_len(  );
+        value_code_dump( method->current_block->ref,
+                         method->current_block->length );
 
     }
     else if( value_eq( sym.instvar, argv[0] ) ) {
@@ -126,7 +129,7 @@ void _asm_line( int argc, VALUE * argv ) {
         value_code_emit_fixup( argv[0] );
     }
     else if( value_eq( sym.block, argv[1] ) ) {
-        method_add_block( value_code_start_block());
+        method_add_block( value_code_start_block(  ) );
     }
     else if( value_eq( sym.assign, argv[1] ) ) {
         asm_assign( method, argv );
