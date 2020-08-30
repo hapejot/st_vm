@@ -9,7 +9,6 @@ extern CLS_MTH*method;
  * adds the block the the current method
  */
 API void method_add_block(VALUE block){
-    assert(method->blockcnt < 10);
-    method->block[method->blockcnt++] = block;
+    method->block = block;
     method->current_block = value_block_ptr(block);
 }

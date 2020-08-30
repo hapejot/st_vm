@@ -36,20 +36,22 @@ struct locals_flags {
     bool block;
 } find_flags;
 
-void value_locals_find(bool has_block, VALUE block){
+void value_locals_find( bool has_block, VALUE block ) {
     find_flags.block = has_block;
-    find.block = block;    
+    find.block = block;
     find_next = 0;
 }
 
-LOCALS value_locals_next(){
+LOCALS value_locals_next(  ) {
     LOCALS r = NULL;
-    while(find_next< MAX_LOCALS){
-        bool found = find_flags.block && VALUE_LONG(find.block) == VALUE_LONG(locals[find_next].block);
-        if(found){
+    while( find_next < MAX_LOCALS ) {
+        bool found = find_flags.block
+                && VALUE_LONG( find.block ) ==
+                VALUE_LONG( locals[find_next].block );
+        if( found ) {
             r = locals + find_next;
             break;
-            }
+        }
         find_next++;
     }
     return r;
