@@ -54,14 +54,14 @@ void print_line( WORDS ws ) {
 
 VALUE value_parse( char *str ) {
     VALUE r;
-    VALUE_LONG(r) = 0;
+    VALUE_LONG( r ) = 0;
     if( str[0] == '#' )
         r = value_int( atoi( str + 1 ) );
     return r;
 }
 
 bool _initialized = false;
-struct sym  sym;
+struct sym sym;
 
 #include "init_symbols.h"
 
@@ -110,8 +110,8 @@ int main( int argc, char **argv ) {
         exit( -1 );
     }
 
-    init_classes();
-    init_globals();
+    init_classes(  );
+    init_globals(  );
 
 
     FILE *in = fopen( argv[1], "r" );
@@ -126,20 +126,20 @@ int main( int argc, char **argv ) {
             value_clear( &line[idx] );
         _asm_line( idx, line );
     }
+    _globals_dump(  );
+    value_obj_dump(  );
+    method_dump(  );
+    value_block_dump(  );
+    value_ivar_dump(  );
     CLS_MTH *m = lookup_method_and_class( _global( value_symbol( argv[2] ) ),
-                                           value_symbol( argv[3] ) );
+                                          value_symbol( argv[3] ) );
     if( m ) {
-        _globals_dump();
-        value_obj_dump(  );
-        method_dump(  );
-        value_block_dump();
-        value_ivar_dump();
         printf( "M:%d\n", m->no );
-        fflush(stdout);
+        fflush( stdout );
         struct context ctx;
-        ctx.clr = value_closure_mk();
+        ctx.clr = value_closure_mk(  );
         ctx.ref = m->code;
-        exec(&ctx);
+        exec( &ctx );
     }
     return 0;
 }
