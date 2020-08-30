@@ -131,6 +131,7 @@ int main( int argc, char **argv ) {
     method_dump(  );
     value_block_dump(  );
     value_ivar_dump(  );
+    value_locals_dump();
     CLS_MTH *m = lookup_method_and_class( _global( value_symbol( argv[2] ) ),
                                           value_symbol( argv[3] ) );
     if( m ) {
