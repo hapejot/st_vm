@@ -4,18 +4,19 @@
 #define MAX_BLOCKS 100
 static struct block blocks[MAX_BLOCKS];
 
-API void value_block_dump(){
-    printf("\nBlocks ==================");
-    for(uint_t i = 0; i< MAX_BLOCKS;i++){
+API void value_block_dump(  ) {
+    printf( "\nBlocks ==================" );
+    for( uint_t i = 0; i < MAX_BLOCKS; i++ ) {
         BLOCK b = blocks + i;
-        if(b->active){
-            printf("\n%d. %04lx", i, VALUE_LONG(b->ref));
+        if( b->active ) {
+            printf( "\n%d. %04lx", i, VALUE_LONG( b->ref ) );
+            value_code_dump( b->ref, b->length );
         }
     }
-    printf("\n====================");
+    printf( "\n====================" );
 }
 
-API VALUE value_block_new( ) {
+API VALUE value_block_new(  ) {
     VALUE r;
     VALUE_LONG( r ) = 0;
     for( uint_t i = 0; i < MAX_BLOCKS; i++ ) {

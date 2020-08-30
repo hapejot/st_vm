@@ -1,0 +1,2 @@
+        value_code_dump( method->current_block->ref,
+                         method->current_block->length );

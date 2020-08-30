@@ -116,8 +116,7 @@ void _asm_line( int argc, VALUE * argv ) {
         BLOCK b = method->current_block;
         assert( b );
         b->length = value_code_len(  );
-        value_code_dump( method->current_block->ref,
-                         method->current_block->length );
+        value_code_dump( b->ref, b->length );
 
     }
     else if( value_eq( sym.instvar, argv[0] ) ) {

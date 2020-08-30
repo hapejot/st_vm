@@ -25,6 +25,7 @@ method testLoop in System
     message b0 CONT
     param b1
     send whileTrue:
+    end
     
 b0  block 
     param counter
@@ -35,6 +36,7 @@ b0  block
 l0end :
     return tmp
     goto CONT
+    end
 
 l1  block
     param counter
@@ -46,7 +48,6 @@ l2  :
     param xxxxx
     param incr
     send print
-
     end
 
 
