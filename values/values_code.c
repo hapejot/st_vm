@@ -63,6 +63,13 @@ API VALUE value_code_start(  ) {
     return value_mk( KIND_REF, top );
 }
 
+API VALUE value_code_start_block(){
+    VALUE b = value_block_new();
+    BLOCK bp = value_block_ptr(b);
+    bp->ref = value_code_start();
+    return b;
+}
+
 API uint_t value_code_len(  ) {
     return top - start;
 }

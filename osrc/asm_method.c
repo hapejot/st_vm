@@ -12,13 +12,13 @@ VALUE asm_classname(VALUE cls_name){
 }
 
 void asm_method( CLS_MTH ** methp, VALUE * argv ) {
-#define method (*methp)
     VALUE cls = asm_classname(argv[3]);
     if( value_eq( sym.cls, argv[4] ) ) {
-        method = _append_method( value_obj_class( cls ), argv[1] );
+        *methp = _append_method( value_obj_class( cls ), argv[1] );
     }
     else
-        method = _append_method( cls, argv[1] );
-    printf( "METHOD  %d %s", method->no, value_symbol_str( argv[1] ) );
-    method->code = value_code_start(  );
+        *methp = _append_method( cls, argv[1] );
+    (*methp)->block[0] = value_code_start_block();
+    (*methp)->blockcnt = 1;
+    (*methp)->code = value_code_start(  );
 }

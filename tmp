@@ -1,1 +1,3 @@
-#include "message.h"
+API VALUE value_block_start( ){
+
+}

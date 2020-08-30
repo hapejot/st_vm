@@ -4,15 +4,12 @@
 #define MAX_BLOCKS 100
 static struct block blocks[MAX_BLOCKS];
 
-API VALUE value_block_new( VALUE ref, VALUE temps ) {
+API VALUE value_block_new( ) {
     VALUE r;
     VALUE_LONG( r ) = 0;
     for( uint_t i = 0; i < MAX_BLOCKS; i++ ) {
         BLOCK b = blocks + i;
         if( !b->active ) {
-            b->ref = ref;
-            b->temps = VALUE_IDX( temps );
-
             VALUE_KIND( r ) = KIND_BLK;
             VALUE_IDX( r ) = i;
             break;

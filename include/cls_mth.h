@@ -4,6 +4,8 @@ typedef struct cls_mth {
     int no;
     VALUE cls;  // class id
     VALUE sel; // selector
+    VALUE block[10];
+    uint_t blockcnt;
     LOCALVAR vars;
     uint_t codelen;
     VALUE code;
