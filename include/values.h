@@ -9,6 +9,7 @@ typedef struct closure *CLOSURE;
 typedef struct continuation *CONTINUATION;
 typedef struct block *BLOCK;
 typedef struct message *MESSAGE;
+typedef struct locals *LOCALS;
 
 typedef struct value
 {
@@ -58,6 +59,7 @@ extern OPCODE opcodes[];
 #define KIND_IREF 9 // refrence instance variables
 #define KIND_MSG 10 // message in send status
 #define KIND_PREF 11 // Parameter reference into the message -1 means self, -2 means Continuation
+#define KIND_VAR 12 // variable local to a block
 
 
 #define VALUE_KIND(x) ((x).u.v.kind)
@@ -69,6 +71,7 @@ extern OPCODE opcodes[];
 #include "block.h"
 #include "context.h"
 #include "message.h"
+#include "locals.h"
 #undef API
 #define API API_EXT
 #include "values.func.h"

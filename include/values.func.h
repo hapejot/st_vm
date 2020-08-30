@@ -1,5 +1,9 @@
 /* values_print.c */
 API void values_print(VALUE x);
+/* values_locals.c */
+API VALUE value_locals_new(void);
+API LOCALS value_locals_ptr(VALUE l);
+API void value_locals_dump(void);
 /* values_symbol.c */
 API VALUE value_symbol(char *str);
 API const char *value_symbol_str(VALUE v);
