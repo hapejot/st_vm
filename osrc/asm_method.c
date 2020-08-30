@@ -13,12 +13,14 @@ VALUE asm_classname(VALUE cls_name){
 
 void asm_method( CLS_MTH ** methp, VALUE * argv ) {
     VALUE cls = asm_classname(argv[3]);
+    CLS_MTH *m = NULL;
     if( value_eq( sym.cls, argv[4] ) ) {
-        *methp = _append_method( value_obj_class( cls ), argv[1] );
+        m = _append_method( value_obj_class( cls ), argv[1] );
     }
     else
-        *methp = _append_method( cls, argv[1] );
-    (*methp)->block[0] = value_code_start_block();
-    (*methp)->blockcnt = 1;
-    (*methp)->code = value_code_start(  );
+        m = _append_method( cls, argv[1] );
+    m->block[0] = value_code_start_block();
+    m->blockcnt = 1;
+    m->code = value_code_start(  );
+    *methp = m;
 }
