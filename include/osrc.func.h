@@ -20,6 +20,7 @@ API void _globals_dump(void);
 API CLS_MTH *_append_method(VALUE cls, VALUE sel);
 API void _asm_line(int argc, VALUE *argv);
 /* methods.c */
+API void method_add_block(VALUE block);
 /* asm_parse_arg.c */
 API void asm_parse_arg(CLS_MTH *method, VALUE str);
 /* asm_assign.c */
