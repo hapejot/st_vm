@@ -21,6 +21,7 @@ void asm_method( CLS_MTH ** methp, VALUE * argv ) {
         m = _append_method( cls, argv[1] );
     m->block[0] = value_code_start_block();
     m->blockcnt = 1;
+    m->current_block = value_block_ptr(m->block[0]);
     m->code = value_code_start(  );
     *methp = m;
 }

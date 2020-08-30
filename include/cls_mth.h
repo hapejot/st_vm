@@ -6,6 +6,7 @@ typedef struct cls_mth {
     VALUE sel; // selector
     VALUE block[10];
     uint_t blockcnt;
+    BLOCK current_block;
     LOCALVAR vars;
     uint_t codelen;
     VALUE code;

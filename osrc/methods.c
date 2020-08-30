@@ -11,4 +11,5 @@ extern CLS_MTH*method;
 API void method_add_block(VALUE block){
     assert(method->blockcnt < 10);
     method->block[method->blockcnt++] = block;
+    method->current_block = value_block_ptr(block);
 }
