@@ -103,7 +103,7 @@ void _asm_line( int argc, VALUE * argv ) {
         locals_add( &method->vars, argv[1], 'T' );
 
         LOCALS l = value_locals_ptr(value_locals_new());
-        l->block = method->block;
+        l->owner = method->block;
         l->name = argv[1];
         l->def = value_mk(KIND_TREF, method->tmpcnt++);
     }

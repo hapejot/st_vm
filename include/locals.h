@@ -2,7 +2,7 @@
 #define _LOCALS_H
 
 struct locals {
-    VALUE block;
+    VALUE owner;
     VALUE name;
     VALUE def;
 };
