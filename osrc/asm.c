@@ -105,10 +105,7 @@ void _asm_line( int argc, VALUE * argv ) {
         LOCALS l = value_locals_ptr(value_locals_new());
         l->block = method->block;
         l->name = argv[1];
-        VALUE d;
-        VALUE_KIND(d) = KIND_TREF;
-        VALUE_IDX(d) = method->tmpcnt++;
-        l->def = d;
+        l->def = value_mk(KIND_TREF, method->tmpcnt++);
     }
     else if( value_eq( sym.global, argv[0] ) ) {
         uint_t pos;
