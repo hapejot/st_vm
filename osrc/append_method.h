@@ -3,8 +3,8 @@
 #include "cls_mth.h"
 CLS_MTH *_append_method( VALUE cls, VALUE sel ) {
     CLS_MTH *m = methods + top_methods;
-    m->cls.u.l = cls.u.l;
-    m->sel.u.l = sel.u.l;
+    VALUE_LONG(m->cls) = VALUE_LONG(cls);
+    VALUE_LONG(m->sel) = VALUE_LONG(sel);
     top_methods++;
     m->no = top_methods;
     m->codelen = 0;

@@ -10,5 +10,6 @@ extern CLS_MTH*method;
  */
 API void method_add_block(VALUE block){
     method->block = block;
-    method->current_block = value_block_ptr(block);
+    BLOCK b = value_block_ptr(block);
+    method->current_block = b;
 }

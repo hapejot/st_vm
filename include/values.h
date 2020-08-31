@@ -47,19 +47,20 @@ extern VALUE block_cls;
 #define MAX_OPCODES 100
 extern OPCODE opcodes[];
 
-#define KIND_INT 0 // Small Integer
-#define KIND_STR 1 // String or Symbol
-#define KIND_OPC 2 // Opcode
-#define KIND_REF 3 // Code Reference
-#define KIND_TREF 4 // reference for temporary variable
-#define KIND_OBJ 5 // regular object
-#define KIND_MEM 6 // memory reference
-#define KIND_BLK 7 // block
-#define KIND_CONT 8 // continuation
-#define KIND_IREF 9 // refrence instance variables
-#define KIND_MSG 10 // message in send status
-#define KIND_PREF 11 // Parameter reference into the message -1 means self, -2 means Continuation
-#define KIND_VAR 12 // variable local to a block
+#define KIND_INT     0 // Small Integer
+#define KIND_STR     1 // String or Symbol
+#define KIND_OPC     2 // Opcode
+#define KIND_REF     3 // Code Reference
+#define KIND_TREF    4 // reference for temporary variable
+#define KIND_OBJ     5 // regular object
+#define KIND_MEM     6 // memory reference
+#define KIND_BLK     7 // block
+#define KIND_CONT    8 // continuation
+#define KIND_IREF    9 // refrence instance variables
+#define KIND_MSG    10 // message in send status
+#define KIND_PREF   11 // Parameter reference into the message -1 means self, -2 means Continuation
+#define KIND_VAR    12 // variable local to a block
+#define KIND_METH   13
 
 
 #define VALUE_KIND(x) ((x).u.v.kind)

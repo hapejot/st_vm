@@ -22,6 +22,7 @@ VALUE false_cls;
 VALUE true_val;
 VALUE false_val;
 VALUE block_cls;
+VALUE method_cls;
 
 static void _initialize(  ) {
     _initialized = true;
@@ -34,6 +35,7 @@ static void _initialize(  ) {
     false_val = value_obj_new( false_cls );
     block_cls = value_obj_new( nil_cls );
     short_cls = value_obj_new( nil_cls );
+    method_cls = value_obj_new(nil_cls);
 }
 
 API void init_classes(  ) {
@@ -70,6 +72,9 @@ API VALUE value_obj_class( VALUE o ) {
             break;
         case KIND_BLK:
             r = block_cls;
+            break;
+        case KIND_METH:
+            r = method_cls;
             break;
         case KIND_INT:
             r = short_cls;
