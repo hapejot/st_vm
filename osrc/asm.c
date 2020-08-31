@@ -126,7 +126,13 @@ void _asm_line( int argc, VALUE * argv ) {
     }
     else if( value_eq( sym.instvar, argv[0] ) ) {
         printf( "INSTVAR" );
-        value_ivar_append( asm_classname( argv[3] ), argv[1] );
+        VALUE clsname = asm_classname( argv[3] );
+        value_ivar_append( clsname, argv[1] );
+
+        LOCALS l = value_locals_ptr(value_locals_new());
+        l->owner = clsname;
+        l->name = argv[1];
+        l->def = value_mk(KIND_IREF, 1);
     }
     else if( value_eq( sym.label, argv[1] ) ) {
         printf( "LABEL" );
