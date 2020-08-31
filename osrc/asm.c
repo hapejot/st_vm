@@ -122,7 +122,6 @@ void _asm_line( int argc, VALUE * argv ) {
         assert( b );
         b->length = value_code_len(  );
         value_code_dump( b->ref, b->length );
-
     }
     else if( value_eq( sym.instvar, argv[0] ) ) {
         printf( "INSTVAR" );

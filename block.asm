@@ -9,7 +9,6 @@ method testLoop in System
     tmpvar  CONT
     tmpvar  result
     tmpvar  tmp
-    tmpvar  counter
     tmpvar  max
     tmpvar  incr
 
@@ -28,9 +27,8 @@ method testLoop in System
     end
     
 b0  block 
-    param counter
-    c1 <- continue l0end tmp
-    param c1
+    tmpvar  counter
+    message counter b0_cont
     param max
     send <
 l0end :
@@ -133,3 +131,6 @@ l1  :
     param result
     primitive obj_identical
     end 
+
+instvar code in Block
+instvar tmps in Block
