@@ -2,15 +2,15 @@
 
 
 API bool value_eq(VALUE a, VALUE b){
-    return a.u.l == b.u.l;
+    return VALUE_LONG(a) == VALUE_LONG(b);
 }
 
 API void value_clear(VALUE *v){
-    v->u.l = 0;
+    VALUE_LONG(*v) = 0;
 }
 
 API bool value_isnil(VALUE v){
-    return v.u.l == 0;
+    return VALUE_LONG(v) == 0;
 }
 
 API VALUE value_nil(){
@@ -20,15 +20,13 @@ API VALUE value_nil(){
 }
 
 API VALUE value_mk(uint_t kind, uint_t idx){
-    VALUE v = { .u.l = 0 };
-    v.u.v.kind = kind;
-    v.u.v.idx = idx;
+    VALUE v;
+    VALUE_LONG(v) = 0;
+    VALUE_KIND(v) = kind;
+    VALUE_IDX(v) = idx;
     return v;
 }
 
 API VALUE value_int( int i ) {
-    VALUE r;
-    r.u.v.idx = i;
-    r.u.v.kind = KIND_INT;
-    return r;
+    return value_mk(KIND_INT, i);
 }

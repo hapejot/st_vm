@@ -9,11 +9,7 @@ struct locals locals[MAX_LOCALS];
 
 
 VALUE value_locals_new(  ) {
-    VALUE r;
-    assert( locals_top < MAX_LOCALS );
-    VALUE_KIND( r ) = KIND_VAR;
-    VALUE_IDX( r ) = locals_top++;
-    return r;
+    return value_mk(KIND_VAR, locals_top++);
 }
 
 LOCALS value_locals_ptr( VALUE l ) {
