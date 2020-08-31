@@ -43,6 +43,7 @@ void _globals_initialize(  ) {
     _global_put( value_symbol( "False" ), false_cls );
     _global_put( value_symbol( "Block" ), block_cls );
     _global_put( value_symbol( "SmallInteger" ), short_cls );
+    _global_put(value_symbol("Method"), method_cls);
 
 
     printf( "\nsym cls: %04lx", VALUE_LONG( sym_cls ) );

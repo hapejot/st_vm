@@ -43,6 +43,7 @@ extern VALUE bool_cls;
 extern VALUE true_val;
 extern VALUE false_val;
 extern VALUE block_cls;
+extern VALUE method_cls;
 
 #define MAX_OPCODES 100
 extern OPCODE opcodes[];
